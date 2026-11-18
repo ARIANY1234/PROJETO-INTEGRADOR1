@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <body class="pagina-login">
+    <main class="container">
+
+        
+        <section class="card">
+   
+            
+            <!--Acessar a conta cadastrada-->
+            <h1>Entrar</h1>
+
+            <p class="subtitle">
+                Acesse sua conta
+            </p>
+
+
+            <!--logar sua conta-->
+            <form id="loginForm">
+
+                <!--inserio o email-->
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="seu@email.com"
+                    required
+                >
+
+                <!--inserie a senha-->
+
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Digite sua senha"
+                    required
+                >
+
+                <!--entrar na sua conta-->
+
+                <button type="submit">
+                    Entrar
+                </button>
+
+                <br>
+
+
+            </form>
+        <!--botao para se cadastrar caso nao tenha uma conta-->
+
+            <p class="link-text">
+                Ainda não possui uma conta?
+                <a href="cadastro.html">
+                    Criar conta
+                </a>
+            </p>
+
+            <p id="mensagem"></p>
+
+            
+        </section>
+        
+
+    </main>
+
+    <!--link para se conectar com o java-->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js"></script>
+    
+    </section>
+<section id="barrinha">
+<nav>
+<a href="index.html">Início</a>
+<a href="contato.html">Contato</a>
+<a href="login.html">Login</a>
+<a href="cadastro.html">Globo 3D</a>
+</nav>
+       </section>
+   
+</body>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+    
+<body class="pagina-cadastro">
+     <main class="container">
+
+
+        <section class="card">
+
+            <h1>Criar conta</h1>
+
+            <p class="subtitle">
+                Preencha os dados abaixo
+            </p>
+
+            <!--Criando formulário-->
+
+            <form id="cadastroForm">
+
+<!--Colocar o nome-->
+                <label for="nome">
+                    Nome
+                </label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Seu nome"
+                    required
+                >
+
+                <!--inserir o email-->
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="seu@email.com"
+                    required
+                >
+
+                <!--Logar senha-->
+
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Crie uma senha"
+                    minlength="6"
+                    required
+                >
+
+                <label for="confirmarSenha">
+                    Confirmar senha
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmarSenha"
+                    placeholder="Digite a senha novamente"
+                    minlength="6"
+                    required
+                >
+                <!--Botao de enviar o cadastro-->
+
+                <button type="submit">
+                    Cadastrar
+                </button>
+
+            </form>
+
+            <!--Direcionar para a pagina de login-->
+
+            <p class="link-text">
+                Já possui uma conta?
+                <a href="login.html">
+                    Voltar para o login
+                </a>
+            </p>
+           
+   
+    <!--Conecta com o java-->
+
+   
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js"></script>
+    
+
+
+</body>
+
+</html>

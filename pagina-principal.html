@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Globo 3D – Crises Ambientais</title>
+<style>
+:root{--bg:#050a14;--fg:#e8f0fb;--mut:#8fa3bf;--card:rgba(10,20,38,.92);--ac:#ff6b4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+#c{position:fixed;inset:0;touch-action:none;cursor:grab}
+.lb{position:fixed;left:0;top:0;pointer-events:none;white-space:nowrap;transform:translate(-50%,-50%);text-shadow:0 0 4px #000,0 0 2px #000;display:none}
+.p{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em;text-transform:uppercase}
+.e{font-size:11px;color:#ffd27a}
+.c{font-size:10.5px;color:#9fe3ff}
+h1{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:14px;margin:0;font-size:16px;pointer-events:none}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:12px;margin-top:2px}
+#panel{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:460px;margin:auto;background:var(--card);border:1px solid #23375a;border-radius:14px;padding:14px 16px;max-height:44vh;overflow:auto;backdrop-filter:blur(8px)}
+#panel h2{margin:0 0 2px;font-size:18px}
+#panel .loc{color:var(--mut);font-size:13px;margin-bottom:8px}
+#panel h3{margin:10px 0 4px;font-size:12px;color:var(--ac);text-transform:uppercase;letter-spacing:.06em}
+#panel ul{margin:0;padding-left:18px;font-size:14px;line-height:1.45}
+#panel .n{font-size:11px;color:var(--mut);margin-top:10px}
+html,body{background:radial-gradient(ellipse at 50% 42%,#0d1f3d 0%,#060d1c 55%,#02050c 100%)!important;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.lb{font-family:"Space Grotesk",Inter,system-ui,sans-serif}
+.p{font-size:12px;letter-spacing:.2em;font-weight:700;color:#f4f8ff;opacity:.92}
+.e{font-size:10.5px;letter-spacing:.07em;color:#ffe3a3;font-weight:600}
+.c{font-size:10px;font-weight:600}
+h1{font-family:"Space Grotesk",Inter,sans-serif;font-size:21px;letter-spacing:-.01em}
+h1 span{background:linear-gradient(90deg,#fff,#86ccff);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 small{font-family:Inter,sans-serif;letter-spacing:0;margin-top:4px}
+#lg{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:14px;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;pointer-events:none}
+#lg span{background:rgba(10,20,38,.6);border:1px solid #23375a;border-radius:999px;padding:5px 12px;backdrop-filter:blur(6px)}
+#lg .r{color:#ff7b7b}#lg .g{color:#6df0a0}
+#panel{background:linear-gradient(160deg,rgba(20,38,70,.9),rgba(8,16,32,.94));border:1px solid rgba(120,170,255,.24);border-radius:22px;padding:18px 20px;box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.07);scrollbar-width:thin;scrollbar-color:#2b4570 transparent}
+#panel>*{animation:up .4s ease both}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#panel h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:23px;letter-spacing:-.01em;margin-bottom:4px}
+#panel .loc{line-height:1.5}
+#panel h3{display:flex;align-items:center;gap:10px;color:#9ec5ff;margin:16px 0 8px}
+#panel h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#2b4570,transparent)}
+#panel li.bad,#panel li.good{list-style:none;margin-bottom:8px;padding:10px 13px;border-radius:14px;display:flex;flex-direction:column;gap:3px;font-size:13.5px}
+#panel li.bad{background:rgba(255,80,80,.1);border:1px solid rgba(255,110,110,.32)}
+#panel li.good{background:rgba(70,230,130,.09);border:1px solid rgba(100,240,150,.3)}
+#panel li.bad b{color:#ff8a8a}#panel li.good b{color:#6df0a0}
+#panel li b::before{content:"● "}
+#panel li span{color:#c9d6e8;line-height:1.4}
+#panel .n{border-top:1px solid #1f3254;padding-top:10px}
+.lb{text-shadow:0 0 3px #000,0 0 7px #000,0 1px 2px #000;-webkit-font-smoothing:antialiased;background:rgba(4,9,20,.38);padding:1px 6px;border-radius:7px}
+.p{font-size:11.5px;letter-spacing:.12em;background:none;padding:0}
+.e{font-size:10.5px;letter-spacing:.02em}
+.c{font-size:10px;letter-spacing:0}
+#q{position:fixed;top:calc(66px + env(safe-area-inset-top,0px));left:14px;width:min(300px,calc(100vw - 150px));padding:9px 15px;border-radius:999px;border:1px solid #23375a;background:rgba(10,20,38,.72);color:#e8f0fb;font:13px Inter,sans-serif;outline:none;backdrop-filter:blur(8px)}
+#q:focus{border-color:#4aa8ff;box-shadow:0 0 0 3px rgba(74,168,255,.2)}
+.rk{display:flex;align-items:center;gap:10px;font-size:12px;color:#8fa3bf;margin:2px 0 10px}
+.rk i{display:flex;gap:3px}.rk u{width:24px;height:7px;border-radius:4px;background:#1f3254}
+.rk u.on{background:linear-gradient(90deg,#ffd166,#ff6b4a)}.rk em{font-style:normal;font-weight:700;color:#ffb36b}
+.tg{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tg b{font-weight:600;font-size:11.5px;padding:4px 10px;border-radius:999px;background:rgba(80,140,255,.14);border:1px solid rgba(110,160,255,.3);color:#cfe0ff}
+#lg #clk{color:#cfe0ff;font-weight:500;max-width:220px;line-height:1.35;border-radius:16px}
+#barrinha{position:fixed;top:0;left:0;right:0;z-index:20;padding-top:env(safe-area-inset-top,0px);background:rgba(6,13,28,.74);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(120,170,255,.18)}
+#barrinha nav{display:flex;justify-content:center;gap:6px;padding:8px 10px;overflow-x:auto}
+#barrinha a{color:#cfe0ff;text-decoration:none;font:600 13px Inter,system-ui,sans-serif;padding:7px 15px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s}
+#barrinha a:hover{background:rgba(74,168,255,.18);color:#fff}
+#barrinha a.at{background:linear-gradient(90deg,#2b7fff,#58b4ff);color:#fff}
+h1{top:calc(58px + env(safe-area-inset-top,0px))}
+#q{top:calc(116px + env(safe-area-inset-top,0px))}
+#lg{top:calc(58px + env(safe-area-inset-top,0px))}
+#news{position:fixed;top:calc(214px + env(safe-area-inset-top,0px));right:14px;bottom:14px;width:320px;display:flex;flex-direction:column;background:linear-gradient(160deg,rgba(20,38,70,.9),rgba(8,16,32,.94));border:1px solid rgba(120,170,255,.24);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.55);backdrop-filter:blur(8px);overflow:hidden;z-index:10}
+#news header{padding:14px 16px 10px;border-bottom:1px solid #1f3254}
+#news header b{font:700 16px "Space Grotesk",Inter,sans-serif}
+#news header small{display:block;color:#8fa3bf;font-size:11px;line-height:1.45;margin-top:4px}
+#nl{overflow-y:auto;padding:8px;scrollbar-width:thin;scrollbar-color:#2b4570 transparent}
+.ni{display:flex;gap:10px;padding:10px;border-radius:14px;cursor:pointer;border:1px solid transparent;transition:background .2s,border-color .2s}
+.ni:hover{background:rgba(74,168,255,.12);border-color:rgba(110,160,255,.3)}
+.nk{font-size:20px;line-height:1.2}
+.ni b{display:block;font-size:13px;font-weight:600;line-height:1.35;color:#eaf2ff}
+.ni small{display:block;color:#8fa3bf;font-size:11px;margin-top:4px;line-height:1.45}
+.ni a{color:#7cc4ff;text-decoration:none}
+#nl h4{margin:12px 8px 4px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#ff9d7a}
+.ne{color:#8fa3bf;font-size:13px;padding:8px 10px;line-height:1.5}
+.gn{display:block;margin:10px 6px 6px;padding:10px 12px;border-radius:12px;background:rgba(74,168,255,.14);border:1px solid rgba(110,160,255,.35);color:#cfe6ff;text-decoration:none;font-size:13px;font-weight:600;line-height:1.35}
+.lb{z-index:1}
+#panel{z-index:15}
+.nall{margin:2px 6px 8px;width:calc(100% - 12px);padding:8px;border-radius:12px;border:1px solid #23375a;background:transparent;color:#9ec5ff;font:600 12px Inter,sans-serif;cursor:pointer}
+#nbtn{display:none;padding:8px 15px;border-radius:999px;border:1px solid #23375a;background:rgba(10,20,38,.74);color:#e8f0fb;font:600 13px Inter,sans-serif;backdrop-filter:blur(8px)}
+@media(max-width:900px){#news{display:none;top:calc(110px + env(safe-area-inset-top,0px));left:14px;right:14px;width:auto;z-index:30}#news.open{display:flex}#nbtn{display:block;position:fixed;left:14px;top:calc(164px + env(safe-area-inset-top,0px));z-index:12}}
+@media(max-width:520px){h1{font-size:17px}#lg{font-size:11px}}
+</style><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"></head><body>
+<section id="barrinha">
+<nav>
+<a href="index.html">Início</a>
+<a href="contato.html">Contato</a>
+<a href="login.html">Login</a>
+<a href="cadastro.html" class="at">Globo 3D</a>
+</nav>
+</section>
+<canvas id="c"></canvas>
+<aside id="news"><header><b>📰 Notícias ambientais</b><small>Retrato de 10/11/2026, selecionado por pesquisa na web. Não atualiza sozinho. Toque em uma notícia para ir ao local no globo (pontos amarelos).</small></header><div id="nl"></div></aside><button id="nbtn">📰 Notícias</button>
+<h1>🌍 <span>Globo de Crises Ambientais</span><small>Arraste para girar · role/pinça para zoom · toque em qualquer ponto</small></h1>
+<input id="q" list="dl" placeholder="🔎 Buscar país, estado ou cidade…" autocomplete="off"><datalist id="dl"></datalist><div id="lg"><span class="r">● Problema</span><span class="g">● Boa situação</span><span id="clk"></span></div><div id="panel"><h2>Toque no planeta</h2><div class="loc">Escolha qualquer ponto para ver o local e as crises ambientais associadas a ele.</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// [nome, tipo(p=país,e=estado,c=cidade), estado, país, lat, lon, crises]
+const D0=[
+["Brasil","p","","",-10,-52,["Desmatamento e degradação da Amazônia","Queimadas no Cerrado e no Pantanal","Eventos extremos de chuva e seca"]],
+["EUA","p","","",39,-98,["Incêndios florestais cada vez maiores","Furacões e tempestades intensificados","Seca no oeste do país"]],
+["Canadá","p","","",58,-105,["Incêndios boreais recorde","Degelo do permafrost"]],
+["México","p","","",23,-102,["Estresse hídrico","Poluição atmosférica urbana"]],
+["Argentina","p","","",-38,-65,["Secas prolongadas","Desertificação na Patagônia"]],
+["Chile","p","","",-30,-71,["Megasseca de mais de uma década","Incêndios florestais"]],
+["Peru","p","","",-10,-75,["Mineração ilegal e contaminação por mercúrio","Recuo das geleiras andinas"]],
+["Rússia","p","","",61,95,["Incêndios na Sibéria","Degelo do permafrost e liberação de metano"]],
+["China","p","","",35,103,["Poluição do ar","Desertificação e escassez de água"]],
+["Índia","p","","",22,79,["Ondas de calor extremas","Poluição de rios e do ar"]],
+["Indonésia","p","","",-2,118,["Desmatamento para óleo de palma","Elevação do nível do mar"]],
+["Austrália","p","","",-25,134,["Megaincêndios","Branqueamento da Grande Barreira de Corais"]],
+["Egito","p","","",26,30,["Escassez de água do Nilo","Erosão do delta"]],
+["Nigéria","p","","",9,8,["Derramamentos de petróleo no Delta do Níger","Enchentes"]],
+["RD Congo","p","","",-3,23,["Desmatamento da floresta do Congo","Mineração e poluição"]],
+["África do Sul","p","","",-30,25,["Seca e crise hídrica","Dependência de carvão e poluição"]],
+["Etiópia","p","","",8,40,["Seca no Chifre da África","Insegurança alimentar climática"]],
+["Espanha","p","","",40,-4,["Seca e desertificação","Ondas de calor"]],
+["França","p","","",46,2,["Ondas de calor","Secas agrícolas"]],
+["Paquistão","p","","",30,70,["Enchentes devastadoras","Degelo de geleiras do Himalaia"]],
+["Bangladesh","p","","",24,90,["Elevação do mar e salinização","Ciclones"]],
+["Arábia Saudita","p","","",24,45,["Escassez extrema de água","Calor extremo"]],
+["Irã","p","","",32,53,["Seca severa","Subsidência do solo por excesso de poços"]],
+["Groenlândia","p","","",72,-40,["Derretimento acelerado da calota de gelo"]],
+["Maldivas","p","","",3.5,73.5,["Risco de submersão por elevação do mar"]],
+["Japão","p","","",36,138,["Tufões intensos","Acidificação e aquecimento dos mares"]],
+["Minas Gerais","e","","Brasil",-18.5,-44.5,["Rompimento de barragens (Mariana e Brumadinho)","Queimadas e baixa umidade no Cerrado"]],
+["Amazonas","e","","Brasil",-4,-65,["Secas históricas dos rios","Fumaça de queimadas"]],
+["Pará","e","","Brasil",-4,-52,["Maior desmatamento da Amazônia","Garimpo ilegal"]],
+["Mato Grosso","e","","Brasil",-13,-56,["Queimadas","Expansão agrícola sobre o Cerrado"]],
+["Rio Grande do Sul","e","","Brasil",-29.7,-53,["Enchentes catastróficas de 2024","Estiagens recorrentes"]],
+["Califórnia","e","","EUA",37,-120,["Incêndios florestais","Seca prolongada"]],
+["Texas","e","","EUA",31,-99,["Secas e calor extremo","Tempestades de inverno"]],
+["Flórida","e","","EUA",28,-82,["Furacões","Elevação do mar e inundações"]],
+["Queensland","e","","Austrália",-22,144,["Branqueamento de corais","Ciclones e enchentes"]],
+["São Paulo","c","SP","Brasil",-23.55,-46.63,["Crise hídrica","Poluição do ar e ilhas de calor"]],
+["Rio de Janeiro","c","RJ","Brasil",-22.9,-43.2,["Deslizamentos de terra","Poluição da Baía de Guanabara"]],
+["Manaus","c","AM","Brasil",-3.1,-60,["Seca de rios","Fumaça de queimadas"]],
+["Uberlândia","c","MG","Brasil",-18.9,-48.3,["Queimadas no Cerrado","Períodos de baixa umidade e estiagem"]],
+["Cuiabá","c","MT","Brasil",-15.6,-56.1,["Queimadas e fumaça","Calor extremo"]],
+["Porto Alegre","c","RS","Brasil",-30,-51.2,["Enchentes de 2024","Risco climático nas margens do Guaíba"]],
+["Nova York","c","NY","EUA",40.7,-74,["Elevação do mar","Tempestades e inundações costeiras"]],
+["Los Angeles","c","CA","EUA",34,-118.2,["Incêndios","Smog"]],
+["Miami","c","FL","EUA",25.8,-80.2,["Inundações “de céu azul”","Furacões"]],
+["Cidade do México","c","CDMX","México",19.4,-99.1,["Afundamento do solo","Poluição do ar e falta de água"]],
+["Lima","c","Lima","Peru",-12,-77,["Escassez de água","Poluição"]],
+["Londres","c","Inglaterra","Reino Unido",51.5,-0.1,["Ondas de calor inéditas","Risco de inundações no Tâmisa"]],
+["Veneza","c","Vêneto","Itália",45.4,12.3,["Acqua alta (inundações)","Subsidência"]],
+["Cairo","c","Cairo","Egito",30,31.2,["Poluição do ar","Pressão sobre recursos hídricos"]],
+["Lagos","c","Lagos","Nigéria",6.5,3.4,["Enchentes costeiras","Lixo e poluição"]],
+["Cidade do Cabo","c","Cabo Ocidental","África do Sul",-33.9,18.4,["“Dia Zero” da água","Incêndios"]],
+["Nova Délhi","c","Délhi","Índia",28.6,77.2,["Poluição do ar severa","Ondas de calor"]],
+["Mumbai","c","Maharashtra","Índia",19,72.9,["Inundações de monções","Elevação do mar"]],
+["Pequim","c","Pequim","China",39.9,116.4,["Poluição por partículas","Tempestades de areia"]],
+["Jacarta","c","Java","Indonésia",-6.2,106.8,["Afundamento da cidade","Enchentes"]],
+["Tóquio","c","Kantō","Japão",35.7,139.7,["Tufões","Ondas de calor urbanas"]],
+["Sydney","c","NSW","Austrália",-33.9,151.2,["Incêndios","Enchentes"]]
+];
+// país > estados > cidades [nome,lat,lon,"r"=problema|"g"=bom,motivo]
+const S=[
+["Brasil",[
+["Acre",-9,-70,[["Rio Branco",-9.97,-67.8,"r","Queimadas e fumaça na estiagem"],["Cruzeiro do Sul",-7.63,-72.67,"g","Floresta ao redor bem preservada"]]],
+["Alagoas",-9.6,-36.6,[["Maceió",-9.67,-35.74,"r","Afundamento do solo por mineração de sal-gema"],["Maragogi",-9,-35.2,"g","Recifes e APA costeira protegidos"]]],
+["Amapá",1.4,-51.8,[["Macapá",0.03,-51.07,"r","Erosão e alagamentos na orla"],["Oiapoque",3.84,-51.83,"g","Mata densa e áreas protegidas"]]],
+["Amazonas",-4,-65,[["Manaus",-3.1,-60,"r","Secas históricas dos rios e fumaça"],["Parintins",-2.63,-56.74,"g","Manejo comunitário da floresta"]]],
+["Bahia",-12.5,-41.7,[["Salvador",-12.97,-38.5,"r","Poluição costeira e erosão"],["Porto Seguro",-16.45,-39.06,"g","Recifes e Mata Atlântica protegidos"]]],
+["Ceará",-5.2,-39.3,[["Fortaleza",-3.73,-38.52,"r","Erosão costeira e avanço do mar"],["Jijoca de Jericoacoara",-2.8,-40.5,"g","Energia eólica e turismo sustentável"]]],
+["Distrito Federal",-15.8,-47.9,[["Brasília",-15.79,-47.88,"r","Estiagem e baixa umidade"],["Planaltina",-15.45,-47.61,"g","Reservas de Cerrado conservadas"]]],
+["Espírito Santo",-19.6,-40.5,[["Vitória",-20.32,-40.34,"r","Poluição por partículas da siderurgia"],["Domingos Martins",-20.36,-40.66,"g","Mata Atlântica preservada na serra"]]],
+["Goiás",-15.9,-49.8,[["Goiânia",-16.68,-49.25,"r","Calor extremo e seca"],["Alto Paraíso",-14.13,-47.51,"g","Chapada dos Veadeiros protegida"]]],
+["Maranhão",-5,-45,[["São Luís",-2.53,-44.3,"r","Poluição portuária e erosão"],["Barreirinhas",-2.75,-42.82,"g","Lençóis Maranhenses preservados"]]],
+["Mato Grosso",-13,-56,[["Cuiabá",-15.6,-56.1,"r","Queimadas e fumaça"],["Chapada dos Guimarães",-15.46,-55.75,"g","Parque nacional conservado"]]],
+["Mato Grosso do Sul",-20.5,-54.6,[["Campo Grande",-20.46,-54.62,"r","Queimadas no Pantanal"],["Bonito",-21.12,-56.48,"g","Ecoturismo e águas protegidas"]]],
+["Minas Gerais",-18.5,-44.5,[["Uberlândia",-18.92,-48.28,"r","Queimadas no Cerrado"],["Belo Horizonte",-19.92,-43.94,"g","Arborização e parques urbanos"]]],
+["Pará",-4,-52,[["Altamira",-3.2,-52.2,"r","Desmatamento e garimpo"],["Belém",-1.46,-48.5,"g","Projetos de bioeconomia e adaptação"]]],
+["Paraíba",-7.1,-36.7,[["Campina Grande",-7.23,-35.88,"r","Estiagem no semiárido"],["João Pessoa",-7.12,-34.86,"g","Muita Mata Atlântica urbana"]]],
+["Paraná",-24.6,-51.6,[["Londrina",-23.31,-51.16,"r","Geadas e secas afetam lavouras"],["Curitiba",-25.43,-49.27,"g","Referência em áreas verdes e reciclagem"]]],
+["Pernambuco",-8.4,-37.9,[["Recife",-8.05,-34.9,"r","Alagamentos e elevação do mar"],["Fernando de Noronha",-3.85,-32.42,"g","Reserva marinha protegida"]]],
+["Piauí",-7.7,-42.7,[["Teresina",-5.09,-42.8,"r","Calor extremo"],["São Raimundo Nonato",-9,-42.7,"g","Parque da Serra da Capivara"]]],
+["Rio de Janeiro",-22.2,-42.7,[["Rio de Janeiro",-22.9,-43.2,"r","Deslizamentos e poluição da baía"],["Paraty",-23.22,-44.71,"g","Mata Atlântica e costa preservadas"]]],
+["Rio Grande do Norte",-5.8,-36.6,[["Natal",-5.79,-35.2,"r","Erosão costeira"],["São Miguel do Gostoso",-5.12,-35.63,"g","Energia eólica limpa"]]],
+["Rio Grande do Sul",-29.7,-53,[["Porto Alegre",-30.03,-51.22,"r","Enchentes catastróficas de 2024"],["Bento Gonçalves",-29.17,-51.52,"g","Vinícolas com manejo sustentável"]]],
+["Rondônia",-10.9,-62.8,[["Porto Velho",-8.76,-63.9,"r","Desmatamento e queimadas"],["Guajará-Mirim",-10.78,-65.34,"g","Terras indígenas protegidas"]]],
+["Roraima",2,-61.3,[["Boa Vista",2.82,-60.67,"r","Garimpo ilegal e queimadas"],["Uiramutã",4.6,-60.2,"g","Savanas e montes preservados"]]],
+["Santa Catarina",-27.3,-50.5,[["Blumenau",-26.92,-49.07,"r","Enchentes recorrentes"],["Florianópolis",-27.6,-48.55,"g","Unidades de conservação e coleta seletiva"]]],
+["São Paulo",-22.2,-48.7,[["São Paulo",-23.55,-46.63,"r","Crise hídrica e poluição do ar"],["Campos do Jordão",-22.74,-45.59,"g","Mata Atlântica preservada na serra"]]],
+["Sergipe",-10.6,-37.4,[["Aracaju",-10.91,-37.07,"r","Erosão na foz do rio São Francisco"],["Canindé de São Francisco",-9.64,-37.79,"g","Expansão de energia solar e eólica"]]],
+["Tocantins",-10.2,-48.3,[["Formoso do Araguaia",-11.8,-49.53,"r","Queimadas agrícolas"],["Palmas",-10.18,-48.33,"g","Cidade planejada com muitas áreas verdes"]]]]],
+["EUA",[
+["Califórnia",37,-120,[["Los Angeles",34,-118.2,"r","Incêndios e smog"],["São Francisco",37.77,-122.42,"g","Meta de lixo zero e energia limpa"]]],
+["Texas",31,-99,[["Houston",29.76,-95.37,"r","Inundações e poluição petroquímica"],["Austin",30.27,-97.74,"g","Expansão de solar e eólica"]]],
+["Flórida",28,-82,[["Miami",25.8,-80.2,"r","Furacões e inundações costeiras"]]],
+["Nova York",42.9,-75.5,[["Nova York",40.7,-74,"r","Elevação do mar e tempestades"]]],
+["Oregon",44,-120.5,[["Bend",44.06,-121.3,"r","Incêndios florestais"],["Portland",45.52,-122.68,"g","Transporte limpo e parques"]]]]],
+["Canadá",[
+["Alberta",54,-115,[["Fort McMurray",56.73,-111.38,"r","Incêndios e areias betuminosas"],["Banff",51.18,-115.57,"g","Parque nacional protegido"]]],
+["Colúmbia Britânica",54,-125,[["Kelowna",49.89,-119.5,"r","Incêndios florestais"],["Vancouver",49.28,-123.12,"g","Metas de cidade verde"]]],
+["Quebec",52,-72,[["Montreal",45.5,-73.57,"g","Eletricidade hidrelétrica limpa"]]]]],
+["México",[
+["Cidade do México",19.4,-99.1,[["Cidade do México",19.43,-99.13,"r","Afundamento do solo e falta de água"]]],
+["Nuevo León",25.6,-100,[["Monterrey",25.67,-100.31,"r","Poluição do ar e seca"]]],
+["Chiapas",16.5,-92.5,[["Palenque",17.5,-92,"g","Selva Lacandona protegida"]]]]],
+["Argentina",[
+["Buenos Aires",-36.6,-60,[["Buenos Aires",-34.6,-58.38,"r","Enchentes e poluição do Riachuelo"]]],
+["Mendoza",-34.5,-68.5,[["Mendoza",-32.89,-68.83,"r","Seca e escassez de água"]]],
+["Santa Cruz",-48,-70,[["El Calafate",-50.34,-72.27,"g","Parque Los Glaciares protegido"]]]]],
+["Índia",[
+["Délhi",28.6,77.2,[["Nova Délhi",28.6,77.2,"r","Poluição do ar severa"]]],
+["Maharashtra",19.5,76,[["Mumbai",19,72.9,"r","Inundações de monções"]]],
+["Karnataka",14.5,75.8,[["Bengaluru",12.97,77.59,"r","Crise hídrica e lagos poluídos"],["Mysuru",12.3,76.64,"g","Entre as cidades mais limpas do país"]]],
+["Kerala",10.5,76.5,[["Kochi",9.93,76.27,"r","Enchentes e erosão costeira"],["Munnar",10.09,77.06,"g","Florestas de altitude preservadas"]]]]],
+["China",[
+["Guangdong",23.4,113.5,[["Guangzhou",23.13,113.26,"r","Smog e enchentes"],["Shenzhen",22.54,114.06,"g","Frota de ônibus 100% elétrica"]]],
+["Sichuan",30.6,102.7,[["Chengdu",30.57,104.07,"r","Seca e apagões em 2022"],["Wolong",31,103.2,"g","Reserva dos pandas-gigantes"]]],
+["Pequim",39.9,116.4,[["Pequim",39.9,116.4,"r","Partículas no ar e tempestades de areia"]]]]],
+["Austrália",[
+["Nova Gales do Sul",-32,147,[["Sydney",-33.9,151.2,"r","Incêndios e enchentes"],["Byron Bay",-28.64,153.61,"g","Metas de neutralidade climática"]]],
+["Queensland",-22,144,[["Cairns",-16.92,145.77,"r","Branqueamento de corais"]]],
+["Victoria",-37,144.5,[["Melbourne",-37.81,144.96,"r","Ondas de calor e incêndios"]]],
+["Tasmânia",-42,146.6,[["Hobart",-42.88,147.33,"g","Energia 100% renovável"]]]]],
+["África do Sul",[
+["Cabo Ocidental",-33.5,21,[["Cidade do Cabo",-33.9,18.4,"r","“Dia Zero” da água"]]],
+["Gauteng",-26.2,28.1,[["Joanesburgo",-26.2,28.05,"r","Poluição de minas e do ar"]]],
+["KwaZulu-Natal",-29,30.9,[["Durban",-29.86,31.02,"r","Enchentes de 2022"]]]]],
+["Indonésia",[
+["Jacarta",-6.2,106.8,[["Jacarta",-6.2,106.8,"r","Afundamento da cidade e enchentes"]]],
+["Kalimantan Oriental",0.5,116.4,[["Balikpapan",-1.24,116.83,"r","Desmatamento por mineração"]]],
+["Bali",-8.4,115.2,[["Denpasar",-8.65,115.22,"r","Lixo plástico"],["Ubud",-8.5,115.26,"g","Arrozais tradicionais preservados"]]]]],
+["Nigéria",[
+["Rivers",4.8,6.9,[["Port Harcourt",4.82,7.03,"r","Derramamentos de petróleo e fuligem"]]],
+["Lagos",6.5,3.4,[["Lagos",6.52,3.38,"r","Enchentes e lixo"]]]]],
+["Rússia",[
+["Sakha (Yakútia)",66,129,[["Yakutsk",62.03,129.73,"r","Degelo do permafrost"]]],
+["Krasnoiarsk",64,95,[["Norilsk",69.35,88.2,"r","Poluição industrial e derrame de diesel"]]]]]
+];
+const D=D0.filter(d=>d[1]=="p");
+"Brasil=4:fca;EUA=3:cmp;Canadá=3:cg;México=4:aip;Argentina=3:ac;Chile=4:ac;Peru=4:fge;Rússia=4:cg;China=4:pa;Índia=5:cap;Indonésia=4:fm;Austrália=4:cm;Egito=4:am;Nigéria=4:ei;RD Congo=4:fe;África do Sul=4:ap;Etiópia=5:a;Espanha=4:ca;França=3:ca;Paquistão=5:ig;Bangladesh=5:mi;Arábia Saudita=4:ac;Irã=5:a;Groenlândia=4:g;Maldivas=5:m;Japão=3:mc".split(";").forEach(s=>{const[n,r]=s.split("="),[k,t]=r.split(":"),d=D.find(x=>x[0]==n);if(d){d[7]=+k;d[8]=t}});
+// país;lat;lon;risco(1-5);categorias;crises
+const CP=`Guatemala;15.5;-90.4;4;fci;Desmatamento do Petén|Chuvas e secas extremas no corredor seco
+Belize;17.2;-88.5;3;mc;Branqueamento da barreira de corais|Furacões
+Honduras;14.8;-86.6;4;fci;Desmatamento e corredor seco|Furacões como Eta e Iota
+El Salvador;13.7;-88.9;4;ai;Estresse hídrico|Deslizamentos e tempestades tropicais
+Nicarágua;12.9;-85.2;3;fm;Desmatamento de reservas|Furacões na costa caribenha
+Costa Rica;9.9;-84.2;2;f;Pressão sobre florestas tropicais|Variação das chuvas
+Panamá;8.5;-80;3;ai;Seca reduz o nível do Canal|Desmatamento
+Cuba;21.5;-79;4;mc;Furacões e elevação do mar|Seca
+Haiti;19;-72.4;5;fi;Desmatamento quase total das encostas|Furacões e deslizamentos
+República Dominicana;18.8;-70.2;3;mc;Furacões|Erosão costeira e sargaço
+Jamaica;18.1;-77.3;3;m;Furacões intensos|Erosão de praias e corais
+Bahamas;24.7;-77.8;5;m;Risco de submersão|Furacões devastadores
+Trinidad e Tobago;10.5;-61.3;2;ei;Vazamentos de petróleo|Enchentes
+Colômbia;4.6;-74;4;fe;Desmatamento da Amazônia colombiana|Mineração ilegal de ouro
+Venezuela;7;-66;4;ep;Derramamentos de petróleo no Lago Maracaibo|Mineração ilegal e desmatamento
+Guiana;5;-59;3;fi;Mineração de ouro e desmatamento|Enchentes costeiras
+Suriname;4;-56;2;fm;Garimpo e mercúrio|Elevação do mar na costa
+Equador;-1.5;-78.5;3;fg;Petróleo na Amazônia equatoriana|Recuo das geleiras andinas
+Bolívia;-16.5;-64.7;4;fa;Queimadas na Chiquitania|Secas e perda do lago Poopó
+Paraguai;-23.4;-58.4;4;fa;Desmatamento do Chaco|Secas do rio Paraguai
+Uruguai;-32.8;-56;3;ac;Seca severa e crise hídrica em Montevidéu|Eventos climáticos extremos
+Reino Unido;54;-2;3;ci;Ondas de calor inéditas|Inundações e tempestades
+Irlanda;53.2;-8;2;i;Tempestades e enchentes|Perda de turfeiras
+Portugal;39.6;-8;4;ca;Incêndios florestais|Seca
+Itália;42.8;12.5;4;cai;Seca no rio Pó|Enchentes e deslizamentos
+Alemanha;51.1;10.4;3;cip;Enchentes de 2021|Ondas de calor e carvão
+Países Baixos;52.2;5.5;4;m;Risco de elevação do mar|Seca dos rios
+Bélgica;50.6;4.6;2;ip;Enchentes de 2021|Poluição do ar
+Suíça;46.8;8.2;3;g;Derretimento acelerado dos glaciares|Deslizamentos nos Alpes
+Áustria;47.6;14.1;2;gi;Recuo de geleiras|Enchentes
+Polônia;52;19.4;3;pa;Poluição do ar por carvão|Seca
+República Tcheca;49.8;15.5;2;pf;Poluição por carvão|Florestas atacadas por besouros e seca
+Eslováquia;48.7;19.5;2;fi;Desmatamento nos Cárpatos|Enchentes
+Hungria;47.2;19.5;2;ca;Ondas de calor|Seca no Danúbio
+Romênia;45.9;25;3;fi;Desmatamento ilegal|Enchentes
+Bulgária;42.7;25.5;3;pc;Poluição por carvão|Incêndios
+Grécia;39;22;4;ci;Incêndios em Atenas e Rodes|Inundações da tempestade Daniel
+Turquia;39;35;4;cai;Seca e incêndios|Enchentes no Mar Negro
+Ucrânia;49;31.4;4;p;Danos ambientais da guerra|Rompimento da barragem de Kakhovka
+Bielorrússia;53.7;28;2;p;Resíduos de Chernobyl|Degradação de turfeiras
+Moldávia;47.2;28.5;2;a;Seca|Erosão do solo
+Lituânia;55.3;23.9;1;pm;Poluição do Báltico|Tempestades
+Letônia;56.9;24.6;1;m;Eutrofização do Báltico|Tempestades
+Estônia;58.7;25.5;1;p;Poluição de xisto betuminoso|Erosão costeira
+Finlândia;64.5;26;2;g;Aquecimento acelerado do Ártico|Perda de neve
+Suécia;62;15;2;cf;Incêndios boreais|Corte de florestas antigas
+Noruega;64.5;11;2;ge;Degelo de glaciares|Impacto do petróleo no mar
+Dinamarca;56;9.5;2;m;Elevação do mar|Tempestades
+Islândia;64.9;-18.5;3;g;Perda acelerada de geleiras|Erosão do solo
+Croácia;45.1;15.2;2;c;Incêndios|Seca
+Sérvia;44;21;3;pi;Poluição por carvão|Enchentes
+Bósnia e Herzegovina;44;17.8;3;pi;Poluição do ar|Enchentes de 2014
+Albânia;41.1;20.1;3;fi;Desmatamento|Enchentes
+Macedônia do Norte;41.6;21.7;3;p;Poluição do ar em Skopje|Seca
+Montenegro;42.7;19.4;2;fc;Incêndios|Pressão no litoral
+Kosovo;42.6;20.9;3;p;Poluição por termelétricas|Qualidade da água
+Eslovênia;46.1;14.8;2;ci;Enchentes de 2023|Seca
+Malta;35.9;14.4;3;a;Escassez de água|Calor extremo
+Chipre;35;33;4;ca;Seca e incêndios|Aquíferos em queda
+Luxemburgo;49.8;6.1;1;i;Enchentes de 2021|Tráfego e emissões
+Mônaco;43.7;7.4;1;m;Elevação do mar|Calor
+Liechtenstein;47.1;9.5;1;g;Degelo alpino|Deslizamentos
+San Marino;43.9;12.5;1;c;Calor|Seca
+Andorra;42.5;1.5;1;g;Menos neve nas estações|Incêndios
+Vaticano;41.9;12.45;1;c;Ondas de calor|Poluição urbana de Roma
+Marrocos;31.8;-7.1;4;a;Seca de vários anos|Desertificação
+Argélia;28;2.6;4;ac;Incêndios na Cabilia|Seca e desertificação
+Tunísia;34;9.5;4;a;Escassez de água|Erosão costeira
+Líbia;27;17;4;ai;Enchentes de Derna em 2023|Escassez de água
+Mauritânia;20.3;-10.9;4;a;Desertificação|Seca
+Mali;17.6;-3.5;5;a;Desertificação do Sahel|Seca e conflitos por água
+Níger;17.6;8;5;a;Seca severa|Degradação do solo
+Chade;15.5;18.7;5;a;Secagem do Lago Chade|Seca
+Sudão;15.6;30;5;ai;Enchentes|Seca e desertificação
+Sudão do Sul;7.9;30;5;ia;Enchentes extensas|Seca e fome
+Eritreia;15.3;39.5;4;a;Seca|Desertificação
+Djibuti;11.8;42.6;5;ca;Calor extremo|Seca
+Somália;5.2;46.2;5;ai;Seca histórica|Enchentes e ciclones
+Quênia;0.2;37.9;4;ai;Seca no Chifre da África|Enchentes
+Uganda;1.4;32.3;3;fi;Desmatamento|Enchentes e deslizamentos
+Ruanda;-2;29.9;3;i;Deslizamentos|Enchentes
+Burundi;-3.4;29.9;4;fi;Desmatamento|Erosão e enchentes
+Tanzânia;-6.4;34.9;3;fg;Perda de neve do Kilimanjaro|Seca e desmatamento
+Moçambique;-18.3;35;5;mi;Ciclones Idai e Freddy|Elevação do mar
+Malaui;-13.3;34.3;4;ai;Ciclone Freddy|Seca
+Zâmbia;-13.1;27.8;4;ae;Seca e crise de energia hidrelétrica|Desmatamento
+Zimbábue;-19;29.9;4;a;Seca|Desmatamento
+Botsuana;-22.3;24.7;3;a;Seca severa|Pressão sobre o Okavango
+Namíbia;-22.6;17.1;4;a;Seca|Desertificação
+Angola;-11.2;17.9;4;ai;Seca no sul|Desmatamento
+Madagascar;-18.8;46.9;5;fm;Desmatamento extremo|Ciclones e seca no sul
+Maurício;-20.3;57.6;3;m;Erosão costeira|Derrame de óleo em 2020
+Seicheles;-4.7;55.5;4;m;Branqueamento de corais|Elevação do mar
+Comores;-11.9;43.3;4;mf;Ciclones|Desmatamento
+Lesoto;-29.6;28.2;4;a;Seca|Erosão do solo
+Essuatíni;-26.5;31.5;3;a;Seca|Degradação do solo
+Camarões;5.7;12.7;3;fi;Desmatamento|Enchentes
+Gabão;-0.8;11.6;1;f;Pressão sobre floresta intacta|Exploração madeireira
+Guiné Equatorial;1.6;10.5;3;ef;Petróleo offshore|Desmatamento
+Congo;-0.7;15;3;fe;Desmatamento|Exploração de petróleo
+República Centro-Africana;6.6;20.9;4;fa;Desmatamento|Seca
+Gana;7.9;-1;4;ep;Mineração ilegal (galamsey)|Lixo eletrônico em Acra
+Costa do Marfim;7.5;-5.5;4;fm;Desmatamento do cacau|Erosão costeira
+Libéria;6.4;-9.4;3;fm;Desmatamento|Erosão costeira
+Serra Leoa;8.5;-11.8;4;ie;Deslizamentos em Freetown|Mineração
+Guiné;10.9;-10.9;3;ef;Mineração de bauxita|Desmatamento
+Guiné-Bissau;12;-15;4;m;Elevação do mar|Perda de manguezais
+Gâmbia;13.4;-15.3;4;ma;Erosão costeira|Seca
+Senegal;14.5;-14.5;4;ma;Erosão costeira em Saint-Louis|Seca no Sahel
+Cabo Verde;16;-24;4;a;Seca|Desertificação
+Burkina Faso;12.2;-1.6;5;a;Seca e desertificação|Degradação do solo
+Benim;9.3;2.3;3;mi;Erosão costeira|Enchentes
+Togo;8.6;0.8;3;mf;Erosão costeira|Desmatamento
+São Tomé e Príncipe;0.2;6.6;3;m;Elevação do mar|Erosão costeira
+Iraque;33;44;5;ape;Secagem dos rios Tigre e Eufrates|Tempestades de areia
+Síria;35;38;4;ap;Seca severa|Danos ambientais da guerra
+Líbano;33.9;35.9;4;pa;Crise de lixo|Seca
+Jordânia;31.2;36.5;4;a;Um dos países mais secos do mundo|Esgotamento de aquíferos
+Israel;31;35;3;ac;Escassez de água|Ondas de calor
+Palestina;31.9;35.2;4;ap;Escassez de água|Saneamento precário
+Iêmen;15.5;47.5;5;ai;Crise hídrica|Enchentes e ciclones
+Omã;21;57;3;mc;Ciclones|Calor extremo
+Emirados Árabes Unidos;24;54;3;ca;Calor extremo|Dessalinização e salmoura no mar
+Catar;25.3;51.2;3;ca;Calor extremo|Escassez de água
+Bahrein;26;50.5;3;m;Aterros costeiros|Calor
+Kuwait;29.3;47.7;4;pe;Poluição por petróleo|Tempestades de poeira
+Armênia;40.2;45;3;ap;Seca no lago Sevan|Poluição de minas
+Azerbaijão;40.3;47.7;3;pe;Poluição por petróleo|Queda do nível do Cáspio
+Geórgia;42.2;43.5;2;i;Enchentes|Deslizamentos
+Cazaquistão;48;67;4;ap;Desastre do Mar de Aral|Poluição industrial
+Uzbequistão;41.4;64.6;5;a;Secagem do Mar de Aral|Salinização do solo
+Turcomenistão;39.1;59.6;4;ae;Seca|Vazamentos de metano
+Tadjiquistão;38.9;71;4;ga;Derretimento das geleiras|Escassez de água
+Quirguistão;41.2;74.8;4;ge;Perda de geleiras|Contaminação por minas
+Afeganistão;33.9;67.7;5;ai;Seca e degradação do solo|Enchentes
+Nepal;28.4;84.1;4;gi;Derretimento do Himalaia|Enchentes e deslizamentos
+Butão;27.5;90.4;2;g;Degelo glacial|Enchentes de lagos glaciais
+Sri Lanka;7.9;80.7;3;im;Enchentes|Erosão costeira
+Mianmar;21.9;95.9;4;fm;Ciclones|Desmatamento
+Tailândia;15.9;101;4;pi;Poluição por queimadas|Enchentes
+Laos;19.9;102.5;3;ef;Barragens no Mekong|Desmatamento
+Camboja;12.6;104.9;4;fa;Desmatamento|Mudanças no Tonlé Sap
+Vietnã;16;106;4;mi;Delta do Mekong afundando|Tufões
+Malásia;4.2;102;3;fi;Desmatamento|Enchentes
+Singapura;1.35;103.8;2;mc;Elevação do mar|Ilha de calor
+Filipinas;12.9;122.9;5;mi;Tufões supercelulares|Elevação do mar
+Brunei;4.5;114.7;1;ef;Petróleo|Desmatamento em Bornéu
+Timor-Leste;-8.8;125.7;4;mi;Ciclones e enchentes|Erosão
+Papua-Nova Guiné;-6.3;147.2;4;fm;Desmatamento|Elevação do mar
+Mongólia;46.9;103.8;4;ag;Dzud e seca|Desertificação
+Coreia do Norte;40.3;127.2;4;fi;Desmatamento|Enchentes
+Coreia do Sul;36.5;127.9;3;pc;Poluição por partículas|Ondas de calor
+Taiwan;23.7;121;3;am;Seca e escassez de água|Tufões
+Nova Zelândia;-41;174;2;gm;Perda de geleiras|Ciclones como Gabrielle
+Fiji;-17.7;178;4;m;Ciclones|Elevação do mar
+Samoa;-13.8;-172;3;m;Ciclones|Erosão
+Tonga;-21.2;-175.2;4;m;Ciclones|Elevação do mar
+Vanuatu;-15.4;166.9;5;m;Ciclones|Elevação do mar
+Ilhas Salomão;-9.6;160.2;5;m;Elevação do mar|Ciclones
+Kiribati;1.9;-157.4;5;m;Risco de submersão|Salinização da água
+Tuvalu;-8.5;179.2;5;m;Risco de desaparecer com a elevação do mar|Salinização
+Nauru;-0.5;166.9;5;e;Mineração devastou a ilha|Elevação do mar
+Palau;7.5;134.6;3;m;Branqueamento de corais|Tufões
+Micronésia;6.9;158.2;4;m;Elevação do mar|Tufões
+Ilhas Marshall;7.1;171;5;m;Risco de submersão|Resíduos nucleares em Runit
+Barbados;13.2;-59.5;3;m;Furacões|Erosão
+Santa Lucía;13.9;-61;3;m;Furacões|Erosão
+São Vicente e Granadinas;13.2;-61.2;3;m;Furacões|Erosão
+Granada;12.1;-61.7;3;m;Furacões|Erosão
+Antígua e Barbuda;17.1;-61.8;4;m;Furacões|Elevação do mar
+São Cristóvão e Névis;17.3;-62.7;3;m;Furacões|Erosão
+Dominica;15.4;-61.4;4;mi;Furacão Maria|Deslizamentos`;
+CP.trim().split("\n").forEach(l=>{const[a,b,c,r,t,k]=l.split(";");D.push([a,"p","","",+b,+c,k.split("|"),+r,t])});
+// nome|lat|lon|crise1;crise2 (demais países)
+`Cuba|21.5|-79.5|Furacões e erosão costeira;Seca e insegurança hídrica
+Haiti|19|-72.5|Desmatamento quase total;Furacões e deslizamentos
+República Dominicana|18.9|-70.5|Furacões;Branqueamento de corais
+Jamaica|18.1|-77.3|Furacões;Erosão costeira
+Bahamas|24.5|-76|Furacões intensos;Elevação do mar
+Guatemala|15.5|-90.3|Seca no Corredor Seco;Desmatamento
+Belize|17.2|-88.7|Risco ao recife de corais;Furacões
+Honduras|14.8|-86.6|Desmatamento;Secas e tempestades
+El Salvador|13.8|-88.9|Estresse hídrico;Deslizamentos
+Nicarágua|12.9|-85|Desmatamento;Secas e furacões
+Costa Rica|9.9|-84.2|Pressão sobre florestas tropicais;Chuvas extremas
+Panamá|8.5|-80.1|Seca no Canal do Panamá;Desmatamento
+Colômbia|4.6|-74|Desmatamento na Amazônia;Mineração ilegal
+Venezuela|7.1|-66|Derramamentos de petróleo;Degradação do Lago Maracaibo
+Guiana|4.9|-58.9|Mineração de ouro e mercúrio;Enchentes costeiras
+Suriname|4|-56|Desmatamento por mineração;Elevação do mar
+Equador|-1.4|-78.5|Poluição por petróleo na Amazônia;Ameaças a Galápagos
+Bolívia|-16.7|-64.7|Queimadas na Chiquitânia;Degelo andino
+Paraguai|-23.4|-58.4|Desmatamento do Chaco;Secas
+Uruguai|-32.8|-56|Secas históricas;Contaminação da água
+Trinidad e Tobago|10.5|-61.3|Poluição por petróleo;Elevação do mar
+Barbados|13.2|-59.5|Furacões;Erosão costeira
+Antígua e Barbuda|17.1|-61.8|Furacões;Elevação do mar
+Dominica|15.4|-61.4|Furacões;Deslizamentos
+Granada|12.1|-61.7|Furacões;Elevação do mar
+Santa Lúcia|13.9|-61|Furacões;Erosão costeira
+São Vicente e Granadinas|13.25|-61.2|Furacões;Vulcões e deslizamentos
+São Cristóvão e Nevis|17.3|-62.7|Furacões;Elevação do mar
+Portugal|39.5|-8|Incêndios florestais;Seca
+Reino Unido|54|-2|Enchentes;Ondas de calor
+Irlanda|53.2|-8|Enchentes;Tempestades mais fortes
+Islândia|64.9|-18.5|Recuo das geleiras;Erosão por atividade vulcânica
+Noruega|64.5|11|Derretimento de geleiras;Impacto da exploração de petróleo
+Suécia|62|15|Incêndios e secas;Degelo no Ártico
+Finlândia|64|26|Perda de neve;Poluição do Báltico
+Dinamarca|56|10|Elevação do mar;Eutrofização do Báltico
+Países Baixos|52.2|5.5|Risco de inundações;Excesso de nitrogênio agrícola
+Bélgica|50.6|4.6|Enchentes;Poluição do ar
+Luxemburgo|49.8|6.1|Poluição por tráfego;Chuvas extremas
+Alemanha|51|10.5|Enchentes de 2021;Seca e ondas de calor
+Suíça|46.8|8.2|Derretimento de geleiras alpinas;Deslizamentos
+Áustria|47.5|14.5|Degelo alpino;Chuva extrema
+Itália|42.8|12.5|Seca no vale do Pô;Ondas de calor
+Malta|35.9|14.4|Estresse hídrico;Elevação do mar
+Grécia|39|22|Incêndios;Ondas de calor
+Polônia|52|19.5|Poluição por carvão;Seca
+Tchéquia|49.8|15.5|Poluição por carvão;Enchentes
+Eslováquia|48.7|19.5|Desmatamento;Enchentes
+Hungria|47.2|19.5|Secas;Poluição do Danúbio
+Romênia|45.9|25|Desmatamento ilegal;Enchentes
+Bulgária|42.7|25.5|Poluição do ar;Incêndios
+Sérvia|44|21|Poluição do ar e mineração;Enchentes
+Croácia|45.1|15.2|Incêndios no litoral;Elevação do mar
+Eslovênia|46.1|14.8|Enchentes de 2023;Degelo alpino
+Bósnia e Herzegovina|44|17.8|Poluição por carvão;Enchentes
+Montenegro|42.7|19.4|Incêndios;Pressão turística
+Macedônia do Norte|41.6|21.7|Poluição do ar em Skopje;Seca
+Albânia|41.1|20|Desmatamento;Erosão costeira
+Moldávia|47.2|28.5|Seca;Erosão do solo
+Ucrânia|49|32|Impacto ambiental da guerra;Contaminação do solo e da água
+Bielorrússia|53.5|28|Zona contaminada de Chernobil;Drenagem de turfeiras
+Lituânia|55.3|23.9|Eutrofização do Báltico;Secas
+Letônia|56.9|24.9|Perda de florestas;Eutrofização
+Estônia|58.7|25.5|Poluição por xisto betuminoso;Elevação do mar
+Chipre|35|33|Seca e escassez de água;Incêndios
+Andorra|42.5|1.6|Menos neve nos Pireneus;Degelo
+Liechtenstein|47.1|9.55|Degelo alpino;Deslizamentos
+Mônaco|43.74|7.42|Elevação do mar;Calor urbano
+San Marino|43.94|12.46|Seca;Erosão do solo
+Vaticano|41.9|12.45|Ondas de calor em Roma;Poluição do ar
+Turquia|39|35|Incêndios e seca;Poluição do mar de Mármara
+Geórgia|42|43.5|Deslizamentos;Recuo de geleiras do Cáucaso
+Armênia|40.2|45|Poluição do Lago Sevan;Seca
+Azerbaijão|40.3|47.7|Poluição por petróleo no Cáspio;Queda do nível do Cáspio
+Cazaquistão|48|67|Secamento do Mar de Aral;Poluição de mineração
+Uzbequistão|41.4|64.6|Desastre do Mar de Aral;Salinização do solo
+Turcomenistão|39|59.5|Desertificação;Emissões de metano
+Quirguistão|41.2|74.8|Degelo de geleiras;Poluição mineradora
+Tadjiquistão|38.8|71|Recuo de geleiras;Desastres hídricos
+Afeganistão|33.9|66|Secas severas;Desertificação
+Mongólia|46.8|103|Desertificação;Dzud (invernos extremos)
+Coreia do Norte|40.3|127.2|Desmatamento;Enchentes
+Coreia do Sul|36.5|127.9|Poluição por partículas;Ondas de calor
+Taiwan|23.7|121|Secas;Tufões
+Vietnã|16.2|107.8|Salinização do Delta do Mekong;Tufões
+Laos|19.9|102.5|Barragens no Mekong;Desmatamento
+Camboja|12.6|104.9|Desmatamento;Secas no Tonlé Sap
+Tailândia|15.1|101|Poluição do ar no norte;Enchentes
+Mianmar|21.9|96|Desmatamento;Ciclones
+Malásia|4.2|102|Desmatamento para óleo de palma;Enchentes
+Singapura|1.35|103.8|Calor urbano;Elevação do mar
+Brunei|4.5|114.7|Pressão sobre florestas;Emissões de petróleo e gás
+Filipinas|12.9|122.8|Tufões devastadores;Elevação do mar
+Timor-Leste|-8.8|125.8|Erosão do solo;Secas
+Nepal|28.3|84|Degelo no Himalaia;Deslizamentos e enchentes
+Butão|27.5|90.4|Lagos glaciais instáveis;Hidrelétricas
+Sri Lanka|7.6|80.7|Erosão costeira;Secas e enchentes
+Iraque|33|44|Escassez de água e secamento de rios;Tempestades de areia
+Síria|35|38.5|Seca severa;Impacto ambiental da guerra
+Líbano|33.9|35.9|Crise de lixo;Incêndios
+Israel|31.4|35|Estresse hídrico;Secamento do Mar Morto
+Palestina|31.9|35.2|Escassez de água;Contaminação de aquíferos
+Jordânia|31.2|36.5|Escassez extrema de água;Queda do Mar Morto
+Kuwait|29.3|47.6|Poluição por petróleo;Calor extremo
+Bahrein|26|50.55|Perda de corais por aterros;Calor extremo
+Catar|25.3|51.2|Calor extremo;Salinidade pela dessalinização
+Emirados Árabes Unidos|24.3|54.3|Calor extremo;Perda de manguezais e corais
+Omã|21.5|56|Ciclones;Estresse hídrico
+Iêmen|15.6|47.6|Crise hídrica;Impacto ambiental da guerra
+Marrocos|31.8|-7.1|Seca prolongada;Desertificação
+Argélia|28|2.6|Desertificação;Incêndios
+Tunísia|34|9.5|Seca;Erosão costeira
+Líbia|27|17|Escassez de água;Avanço do deserto
+Sudão|15.5|30|Desertificação;Enchentes
+Sudão do Sul|7.3|30|Enchentes do Nilo;Desmatamento
+Eritreia|15.2|39.8|Seca;Degradação do solo
+Djibuti|11.8|42.6|Calor extremo;Escassez de água
+Somália|5.2|46.2|Seca e fome;Ciclones
+Quênia|0.5|37.8|Seca;Enchentes
+Uganda|1.4|32.3|Desmatamento;Enchentes
+Tanzânia|-6.4|34.9|Recuo da neve do Kilimanjaro;Desmatamento
+Ruanda|-1.95|29.9|Erosão e deslizamentos;Enchentes
+Burundi|-3.4|29.9|Degradação do solo;Enchentes do Lago Tanganica
+Moçambique|-18.7|35.5|Ciclones devastadores;Enchentes
+Malauí|-13.3|34.3|Ciclones;Secas
+Zâmbia|-13.1|27.8|Seca e crise elétrica;Desmatamento
+Zimbábue|-19|29.2|Seca;Degradação do solo
+Botsuana|-22.3|24.7|Seca e fim de rios;Conflito por água com elefantes
+Namíbia|-22.5|18.5|Seca;Desertificação
+Angola|-12.3|17.5|Seca no sul;Desmatamento
+Madagascar|-19|46.7|Desmatamento;Ciclones e seca
+Maurício|-20.3|57.6|Erosão costeira;Ciclones
+Seicheles|-4.7|55.5|Branqueamento de corais;Elevação do mar
+Comores|-11.9|43.9|Erosão costeira;Ciclones
+Essuatíni|-26.5|31.5|Seca;Erosão
+Lesoto|-29.6|28.2|Seca;Erosão do solo
+Congo|-0.7|15.2|Desmatamento;Mineração
+Gabão|-0.8|11.6|Pressão sobre florestas;Derramamentos de petróleo
+Guiné Equatorial|1.6|10.5|Exploração de petróleo;Desmatamento
+Camarões|5.7|12.7|Desmatamento;Secamento do Lago Chade
+Chade|15.5|18.7|Secamento do Lago Chade;Desertificação
+Níger|17.6|8.1|Desertificação;Seca
+Mali|17.5|-3.5|Avanço do Saara;Seca
+Mauritânia|20.3|-10.3|Desertificação;Seca
+Senegal|14.5|-14.5|Erosão costeira;Salinização
+Gâmbia|13.45|-15.4|Erosão e elevação do mar;Seca
+Guiné-Bissau|12|-15|Perda de manguezais;Erosão costeira
+Guiné|10.9|-10.9|Desmatamento;Poluição por mineração
+Serra Leoa|8.5|-11.8|Deslizamentos;Desmatamento
+Libéria|6.4|-9.4|Desmatamento;Erosão costeira
+Costa do Marfim|7.5|-5.5|Desmatamento por cacau;Erosão costeira
+Gana|7.9|-1|Mineração ilegal;Lixo eletrônico
+Togo|8.6|0.8|Erosão costeira;Desmatamento
+Benim|9.3|2.3|Erosão costeira;Enchentes
+Burquina Fasso|12.2|-1.6|Desertificação;Seca
+República Centro-Africana|6.6|20.9|Desmatamento;Caça predatória
+Cabo Verde|16|-24|Seca;Erosão
+São Tomé e Príncipe|0.2|6.6|Erosão costeira;Elevação do mar
+Papua-Nova Guiné|-6.3|143.9|Desmatamento;Elevação do mar
+Fiji|-17.7|178|Ciclones;Elevação do mar
+Nova Zelândia|-41|173|Ciclones e enchentes;Degelo de geleiras
+Ilhas Salomão|-9.6|160|Elevação do mar;Desmatamento
+Vanuatu|-16|167|Ciclones;Elevação do mar
+Samoa|-13.75|-172.1|Ciclones;Erosão costeira
+Tonga|-20.4|-174.8|Ciclones;Elevação do mar
+Kiribati|1.9|-157.4|Risco de submersão;Salinização da água
+Tuvalu|-8.5|179.2|Risco de submersão;Salinização da água
+Ilhas Marshall|7.1|171|Elevação do mar;Salinização
+Micronésia|6.9|158.2|Elevação do mar;Tufões
+Palau|7.5|134.6|Branqueamento de corais;Elevação do mar
+Nauru|-0.53|166.9|Terras degradadas pela mineração de fosfato;Elevação do mar`.split("\n").forEach(l=>{const[n,a,o,c]=l.split("|");if(!D.some(d=>d[0]==n))D.push([n,"p","","",+a,+o,c.split(";")])});
+S.forEach(([p,ss])=>ss.forEach(([e,la,lo,cs])=>{D.push([e,"e","",p,la,lo,cs]);cs.forEach(c=>D.push([c[0],"c",e,p,c[1],c[2],[c[3],c[4]]]))}));
+// continentes simplificados [lon,lat]
+const L0=[
+[[-168,66],[-140,70],[-95,72],[-80,70],[-62,58],[-55,50],[-70,44],[-76,35],[-81,25],[-97,26],[-97,18],[-88,15],[-80,8],[-85,10],[-105,20],[-118,32],[-124,42],[-125,50],[-140,60],[-165,60]],
+[[-80,8],[-60,10],[-50,0],[-35,-6],[-40,-22],[-58,-38],[-66,-55],[-74,-50],[-72,-30],[-81,-5]],
+[[-10,36],[-9,43],[0,50],[10,56],[25,70],[60,70],[100,78],[140,72],[180,68],[170,60],[140,52],[130,35],[122,30],[110,20],[105,10],[100,2],[98,15],[90,22],[78,8],[70,20],[58,25],[55,17],[43,13],[35,30],[28,37],[12,38]],
+[[-17,21],[-6,36],[10,37],[32,31],[43,12],[51,12],[40,-15],[35,-25],[20,-35],[12,-17],[9,4],[-8,4],[-17,14]],
+[[114,-22],[130,-12],[142,-11],[153,-27],[147,-38],[130,-32],[115,-34]],
+[[-55,60],[-20,70],[-30,83],[-60,80]],
+[[130,32],[141,36],[142,44],[140,36]],
+[[95,5],[106,-6],[120,-9],[140,-8],[138,-2],[118,2],[110,-2]],
+[[-180,-72],[180,-72],[180,-90],[-180,-90]]
+];
+const P=s=>{const a=s.split(",").map(Number),r=[];for(let i=0;i<a.length;i+=2)r.push([a[i],a[i+1]]);return r};
+const L=[
+"-168,66,-162,70,-156,71.3,-141,69.6,-128,70,-115,68,-95,68,-90,69,-82,69,-81,66,-87,64,-94,60,-93,57,-85,55,-82,52,-79,52,-79,56,-77,60,-78,62,-72,61,-65,60,-62,57,-56,53,-60,50,-66,50,-64,46,-66,44,-70,43,-70,41.5,-74,40.5,-76,38,-75.5,35.3,-78,33.8,-81,31,-80,27,-80.5,25.2,-82,26.5,-83,29.5,-85,29.7,-88,30.3,-90,29.2,-94,29.5,-97,27.8,-97.5,24,-97.8,22,-96,19,-94.5,18.2,-91,18.8,-90.5,21,-87,21.5,-87.5,18,-88.3,15.8,-84,15.8,-83.5,11,-82,9,-79.5,9.5,-77.5,8.5,-78,7.2,-80,7.3,-82.5,8.2,-85.8,10,-87.5,13,-91,14,-94,16,-97,15.8,-101,17.3,-105.5,20,-105.5,22.8,-109,25.5,-112.5,29.5,-114.7,31.7,-112.8,28.5,-111,25.5,-109.7,23,-112.2,24.8,-114.5,27.7,-116.8,31.5,-118.5,34,-121,35.5,-122.5,37.7,-124.2,40.3,-124,43,-124.1,46.2,-124.7,48.4,-123,48.3,-123,49.5,-126,50.8,-128,52.5,-130,54.5,-133,57,-136,58.5,-140,59.8,-146,60.8,-150,59.2,-152,57.8,-157,56.5,-162,55,-164,54.5,-160,58.5,-162,60,-165,62,-164,64,-168,65.6",
+"-77.3,8.7,-76,9,-75.5,10.7,-73,11.3,-71.5,12.4,-70,11.5,-68,10.5,-64,10.7,-61.5,8.6,-60,8.3,-57,6,-54,5.8,-52,4.8,-50.5,2,-50,0,-48,-0.7,-45,-1.5,-42,-2.8,-39,-3,-37,-4.8,-35,-5.5,-34.8,-8,-36,-10.5,-38.5,-13,-39,-17.5,-40,-20.5,-41.8,-23,-44.5,-23.1,-47,-24.5,-48.7,-26.3,-48.5,-28.5,-50,-31,-52.5,-33.7,-54.5,-34.8,-56,-34.9,-58.4,-34.5,-57.2,-36.5,-57.5,-38.2,-62,-39,-62.5,-41,-65,-41,-64.5,-42.8,-65.5,-45,-67.5,-46,-66,-47.8,-68,-50.2,-69,-52,-68.5,-54,-66,-55,-70,-55,-74,-52,-75.5,-48,-74,-43,-73.5,-40,-73.5,-37,-72,-33,-71.5,-30,-70.8,-26,-70.3,-18.5,-71.5,-17,-76,-14,-78,-10,-80,-7,-81,-5,-80.2,-3,-80.5,-1,-80,1,-78.8,1.8,-77.5,4,-77.4,6.5",
+"-9.5,37,-9.5,39,-8.8,41.5,-9.3,43,-8,43.7,-4,43.4,-1.8,43.4,-1.2,46,-4.5,48.4,-1.5,48.7,-1.2,49.7,1.5,50.9,3.5,51.4,4.5,53,8.5,53.8,8.7,55.5,8.2,57,10.5,57.7,10.6,56,9.8,54.8,12,54.2,14,53.9,18.5,54.6,21,55.2,21,57,24,57.8,24.4,59.4,29.8,60,25,60.2,21.5,61,21.4,63,25,65,22,65.8,21.5,64.5,17.5,62,17,60.5,18.5,59.5,16.5,57,15.8,56,14.2,55.4,12.8,55.6,12,57.5,11,59,10.5,59.5,8,58,5.6,58.9,5,61,6.5,62.8,10,64,12.5,66,15,68.5,18,69.6,22,70.3,26,71,31,70.4,33,69.4,41,67.5,40,66,34.5,66.5,35,64.5,37.5,63.8,40.5,64.7,44,66,44,68.4,53,68.7,60,69.5,68,69,67,71,73,72.8,80,72,87,74.5,100,77.7,105,77,113,73.7,128,73,140,72.5,150,71.5,160,70,170,69.8,180,69,180,65,177,64.6,179,62.5,170,60,163,59.5,162,57.5,160,54.5,156.7,51,156,56,155,59,150,59.5,143,59.3,137,54,141,52.5,140.5,48,135,43,131,42.6,129.5,40.5,128,38.5,129.4,36,129,35.2,126.5,34.5,126.3,37,125,38,125,39.7,121.5,39,121,40.6,118,39,119,37,122.5,37.2,120,36,119.2,34.8,121.8,31.8,121.8,30.8,122,29.5,120,26.5,117,23.5,113,22,110.5,20.3,108,21.5,106.5,20,105.8,19,108.7,15.5,109.2,12,106.7,10.4,105,8.6,104.8,10.3,103,10.5,100.5,13.4,99.2,10,100.5,7,102.2,6.2,103.5,4,103.5,1.4,101,2.8,98.5,8,98.3,10,98.5,13.5,97.5,16.8,94.5,16,94,19,92,21,91.5,22.5,90,22,87,21.5,86.5,20,84.5,18.2,82.2,16.4,80.2,15.5,80.3,13,79.8,10.3,78.2,8.8,77.5,8,76.3,9.6,75,12.5,74,15,73,17,72.8,20.5,72.5,21.8,70,20.8,70.3,22.9,68.5,23.5,67,24.8,63,25.3,57.5,25.7,56.4,27,54.5,26.5,52,28,50.2,30,48,30,48.5,28.5,50,26,51.5,24.5,52,24,54,24.2,56.2,26,56.4,24.5,58.7,23.6,59.8,22.3,58.5,20.5,55.5,17.7,52,16,49,14.5,45,13,43.3,12.7,43,15,42.7,16.5,41,19.5,39,21.5,38.5,25,35,28,34.5,28,34,31.2,34.7,32,35,33.5,35.8,35.5,36,36.7,34,36.2,32,36.1,30,36.3,28,36.7,27.2,37.5,26.3,39.3,26.5,40.2,24,40.8,23.5,40.2,22.8,39.5,24,38,23,36.5,21.5,36.8,21,38.5,19.5,40,19.5,41.8,18.5,42.5,16,43.5,14.5,45.2,13.7,45.6,12.3,45.2,12.5,44,14,42.5,16,41.8,18.5,40.1,17,39.6,16.5,38.9,15.7,38,16,39.2,15.5,40,14,40.8,12.5,41.5,11,42.5,10.2,43.8,8.8,44.4,7.5,43.8,6,43.1,4,43.5,3,42.5,3.2,41.8,0.8,41,-0.3,39.5,0.2,38.7,-0.7,37.6,-2,36.8,-4.5,36.7,-5.6,36,-6.3,36.5,-7.4,37.2,-8.9,37",
+"-17,21,-16.5,24,-13,27.7,-10,29.5,-9.7,31.5,-8.8,33,-6.8,34,-5.9,35.8,-2.9,35.3,0,35.9,3,36.8,8,36.9,10.4,37.3,11,36.9,10.3,34.7,11,33.5,13.2,32.9,15.3,32.3,15.6,31.3,19,30.3,20.2,31.2,21.5,32.9,25,31.7,29,30.9,31,31.6,32.3,31.2,32.6,30,33.5,27,35,24,36.5,21.5,37.3,18.5,38.6,16,39.5,15.4,41.8,13.5,43.2,12.5,43.2,11.7,45,10.5,48,11.2,51.2,11.8,50.8,8,49,6,48,4.5,46,2,43,-0.5,41.5,-2,40,-4,39.2,-6,39.5,-8,40.4,-10.5,40.5,-14.5,39,-17,36,-19,35,-22,35.5,-24,33,-25.8,32.9,-28.5,31,-29.9,28,-32.8,25.6,-34,22,-34.2,20,-34.8,18.4,-34,17.8,-32,16.5,-28.6,15.2,-26.8,14.5,-22.5,11.8,-17.3,13.5,-12.5,13.2,-9,12.2,-5.8,9.5,-1,9.3,1,9.7,3.8,8.7,4.5,6,4.3,4.5,6,2,6.3,-1.5,4.8,-4.5,5.2,-7.5,4.4,-9.5,5.8,-13,8,-14.5,10.5,-16.7,12.5,-16.8,13.7,-17.5,14.7,-16.5,16.5,-16,19,-16.5,20.5",
+"113.5,-22,114.2,-26,115,-30,115,-34,118,-35,122,-34,124,-33,129,-31.5,131,-31.5,134,-32.5,137.8,-33,138,-35,140,-37.7,143.5,-38.8,146,-39,148,-37.8,150,-37,151,-33.8,153.2,-28,153,-25,150,-22.5,148.5,-20,146,-18.5,145.3,-15,143.5,-14,142.5,-10.7,141.5,-13,141.7,-15,140.8,-17.5,139,-17.2,136.8,-15.5,135.5,-14.7,136.8,-12.2,132,-11.5,130.5,-12.5,129.5,-15,126.5,-14,123.5,-17,121,-19.5,118,-20.5,116,-20.7",
+"-73,78,-60,82,-35,83.5,-20,81,-18,76,-22,70,-27,68.5,-35,66,-42,60,-46,60.8,-50,64,-53.5,67,-55,70,-60,76",
+"-24,65.5,-22,63.8,-18,63.4,-14,64.5,-14.5,66.2,-20,66.3",
+"-5.7,50,1.4,51.1,1.7,52.7,0,53.6,-1.5,55,-2,57.5,-4,57.7,-3.3,58.6,-5,58.6,-6.2,56.5,-5,55,-3,54.8,-3.5,53.4,-4.5,53.3,-4.2,52,-5.2,51.7,-3,51.4,-4.5,51.2",
+"-10,51.7,-6,52,-6,54.2,-7.5,55.3,-9.5,54.2,-10,53.5",
+"130.5,31,132,33.8,135,34.2,136.8,34.3,139.8,35,141,37,141.8,39.5,141.5,41.5,140.2,41,139.8,39,137,37,135,35.7,132,35.5,130.8,33.7",
+"140,42,141.5,42.5,145,43.3,144,44.3,142,45.4,141.5,43.5,140,43",
+"95.3,5.5,98,4,103.5,-0.5,106,-3,105.8,-5.8,103,-4.5,100.5,-1.5,97.5,2",
+"105.2,-6.8,108.5,-6.5,111,-6.5,114.5,-7.8,114,-8.7,108,-7.8,106,-7",
+"109,1.5,111,1.5,114,4.5,117,7,119,5,117.5,1,118.5,0.5,117.7,-1.6,116.5,-3.8,114.5,-4,111.5,-3.3,110,-2.8,109,-0.5",
+"119.5,-5.5,119,-1,120.5,1,124.8,1.4,121,0.2,123,-0.7,121.5,-2,123,-4,121,-3,121,-5",
+"131,-1,134,-0.8,138,-1.7,141,-2.6,145.5,-4.7,147.5,-6,150,-10.5,147,-10,143.5,-9,141,-9.3,138,-8.3,138,-5.5,135,-4.2,132.5,-3,132,-2.5",
+"172.7,-34.4,175,-36.5,178.5,-37.7,176.5,-40.5,174.8,-41.3,174.5,-39.5,173.8,-39.2",
+"172.7,-40.5,174,-41.7,173,-43.7,171,-44.5,169,-46.6,166.5,-46,168,-44,171,-42",
+"49.3,-12,50.4,-15.5,49.4,-18,47.6,-24.5,45,-25.5,43.7,-23,44.4,-19,44,-16.5,46.5,-15.7,48,-13.5",
+"79.8,9.7,81.8,7.5,81.2,6,80,6.2,79.8,8",
+"120,18.5,122.2,18,122,16,121.5,14.2,124,13,125.8,11,126.5,8.5,125.5,6,123.5,7.8,122,7,123.5,10,121,12.5,120.5,15",
+"121.5,25,122,24,120.8,22,120.2,23.2",
+"-84.9,21.9,-82,23.2,-78,22.5,-74.2,20.3,-77.5,19.9,-80.5,22.3",
+"-74.4,18.5,-72,19.9,-69,19.2,-68.4,18.5,-71,17.8,-74.2,18.2",
+"-180,69,-172,67,-169.5,66.2,-175,65,-180,65",
+"-180,-78,-160,-78,-130,-74,-100,-73,-72,-72,-65,-66,-60,-64,-60,-68,-55,-72,-40,-78,-25,-74,0,-70,30,-70,60,-67,70,-68,90,-66,110,-66,135,-66,150,-69,165,-71,180,-71,180,-90,-180,-90"
+].map(P);
+const SE=["28,41.2,28.5,43.5,30,45.5,33.5,46,35,45,37.5,45,39.7,43.6,41.6,41.6,41.5,41,38,41,35,42,31.5,41.2,29,41.1","47,45,50,46.5,53,46.5,53.5,45,51,44.4,50.3,42.5,53,41.5,53.8,39.5,53.8,37.2,50.4,37,49,38.2,49,40,47.8,41.8,47.3,43.2"].map(P);
+const OCEANO=["Aquecimento e acidificação dos oceanos","Poluição por plásticos e microplásticos","Pesca predatória e perda de biodiversidade marinha"];
+// texturas
+const W=2048,H=1024,cv=document.createElement("canvas");cv.width=W;cv.height=H;
+const x=cv.getContext("2d"),mk=document.createElement("canvas");mk.width=W;mk.height=H;const m=mk.getContext("2d");
+const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#0a2a55");g.addColorStop(.3,"#0d4682");g.addColorStop(.5,"#1062a3");g.addColorStop(.7,"#0d4682");g.addColorStop(1,"#0a2a55");
+x.fillStyle=g;x.fillRect(0,0,W,H);
+function poly(c,fill){c.fillStyle=fill;L.forEach(p=>{c.beginPath();p.forEach(([lo,la],i)=>{const X=(lo+180)/360*W,Y=(90-la)/180*H;i?c.lineTo(X,Y):c.moveTo(X,Y)});c.closePath();c.fill()})}
+function path(c){c.beginPath();L.forEach(p=>{p.forEach(([lo,la],i)=>{const X=(lo+180)/360*W,Y=(90-la)/180*H;i?c.lineTo(X,Y):c.moveTo(X,Y)});c.closePath()})}
+poly(m,"#000");x.save();path(x);x.clip();
+const lg=x.createLinearGradient(0,0,0,H);[[0,"#eef4f8"],[.1,"#c9d6cf"],[.2,"#4d7d49"],[.3,"#6f9a4d"],[.38,"#b8a565"],[.5,"#2c9556"],[.62,"#3d9a58"],[.7,"#b9a76a"],[.8,"#527f4b"],[.92,"#e8eff3"],[1,"#fff"]].forEach(([o,c])=>lg.addColorStop(o,c));
+x.fillStyle=lg;x.fillRect(0,0,W,H);
+for(let i=0;i<40000;i++){x.fillStyle=Math.random()<.5?"rgba(0,40,20,.10)":"rgba(255,255,220,.07)";const s=1+Math.random()*4;x.fillRect(Math.random()*W,Math.random()*H,s,s)}
+x.restore();path(x);x.strokeStyle="rgba(190,235,255,.6)";x.lineWidth=2.5;x.stroke();
+SE.forEach(s=>{[x,m].forEach((c,k)=>{c.beginPath();s.forEach(([lo,la],i)=>{const X=(lo+180)/360*W,Y=(90-la)/180*H;i?c.lineTo(X,Y):c.moveTo(X,Y)});c.closePath();if(k){c.globalCompositeOperation="destination-out";c.fill();c.globalCompositeOperation="source-over"}else{c.fillStyle="#0d4a86";c.fill();c.strokeStyle="rgba(190,235,255,.5)";c.stroke()}})});
+const sp=document.createElement("canvas");sp.width=W;sp.height=H;const sq=sp.getContext("2d");sq.fillStyle="#fff";sq.fillRect(0,0,W,H);sq.drawImage(mk,0,0);
+x.strokeStyle="rgba(255,255,255,.07)";x.lineWidth=1.5;
+for(let i=0;i<=36;i++){x.beginPath();x.moveTo(i*W/36,0);x.lineTo(i*W/36,H);x.stroke()}
+for(let i=0;i<=18;i++){x.beginPath();x.moveTo(0,i*H/18);x.lineTo(W,i*H/18);x.stroke()}
+const mask=m.getImageData(0,0,W,H).data;
+const isLand=(la,lo)=>mask[((Math.min(H-1,Math.floor((90-la)/180*H)))*W+Math.min(W-1,Math.floor((lo+180)/360*W)))*4+3]>128;
+// cena
+const cnv=document.getElementById("c"),R=1;
+const rd=new THREE.WebGLRenderer({canvas:cnv,antialias:true,alpha:true});rd.setPixelRatio(Math.min(devicePixelRatio,2));
+const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,1,.1,100);cam.position.z=4;
+const globe=new THREE.Mesh(new THREE.SphereGeometry(R,64,64),new THREE.MeshPhongMaterial({map:new THREE.CanvasTexture(cv),shininess:45,specular:0x8fb4d8,specularMap:new THREE.CanvasTexture(sp)}));
+sc.add(globe);
+const cc=document.createElement("canvas");cc.width=1024;cc.height=512;const cx=cc.getContext("2d");
+for(let i=0;i<650;i++){const X=Math.random()*1024,Y=(Math.random()+Math.random()+Math.random())/3*512,r=8+Math.random()*32,gr=cx.createRadialGradient(X,Y,0,X,Y,r);gr.addColorStop(0,"rgba(255,255,255,.55)");gr.addColorStop(1,"rgba(255,255,255,0)");cx.fillStyle=gr;cx.save();cx.translate(X,Y);cx.scale(2.4,1);cx.translate(-X,-Y);cx.fillRect(X-r,Y-r,2*r,2*r);cx.restore()}
+const cl=new THREE.Mesh(new THREE.SphereGeometry(1.005,64,64),new THREE.MeshPhongMaterial({map:new THREE.CanvasTexture(cc),transparent:true,opacity:.4,depthWrite:false}));sc.add(cl);
+const atm=new THREE.Mesh(new THREE.SphereGeometry(1.2,64,64),new THREE.ShaderMaterial({vertexShader:`varying vec3 n;void main(){n=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,fragmentShader:`varying vec3 n;void main(){float i=pow(max(.0,.68-dot(n,vec3(0.,0.,1.))),3.);gl_FragColor=vec4(.28,.6,1.,1.)*i*1.6;}`,side:THREE.BackSide,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false}));sc.add(atm);
+sc.add(new THREE.AmbientLight(0xb8d0ff,.22));const dl=new THREE.DirectionalLight(0xfff2de,1.1);dl.position.set(5,3,5);sc.add(dl);
+const st=new Float32Array(1500);for(let i=0;i<1500;i+=3){const v=new THREE.Vector3(Math.random()-.5,Math.random()-.5,Math.random()-.5).normalize().multiplyScalar(50+Math.random()*30);st[i]=v.x;st[i+1]=v.y;st[i+2]=v.z}
+const sg=new THREE.BufferGeometry();sg.setAttribute("position",new THREE.BufferAttribute(st,3));
+sc.add(new THREE.Points(sg,new THREE.PointsMaterial({size:.14,color:0xcfe3ff,transparent:true,opacity:.85,depthWrite:false})));
+const ll2v=(la,lo,r=R)=>{const p=(90-la)*Math.PI/180,t=(lo+180)*Math.PI/180;return new THREE.Vector3(-r*Math.sin(p)*Math.cos(t),r*Math.cos(p),r*Math.sin(p)*Math.sin(t))};
+const v2ll=v=>{let lo=Math.atan2(v.z,-v.x)*180/Math.PI-180;if(lo<-180)lo+=360;return[Math.asin(v.y/v.length())*180/Math.PI,lo]};
+// estrelas do céu
+const sk=document.createElement("canvas");sk.width=sk.height=32;const q=sk.getContext("2d"),gr=q.createRadialGradient(16,16,0,16,16,16);gr.addColorStop(0,"#fff");gr.addColorStop(.4,"rgba(255,255,255,.6)");gr.addColorStop(1,"rgba(255,255,255,0)");q.fillStyle=gr;q.fillRect(0,0,32,32);const stx=new THREE.CanvasTexture(sk),sl=[];
+[[1100,.16,0xffffff],[600,.28,0xaed4ff],[160,.46,0xffe6b0]].forEach(([n,s,c])=>{const a=new Float32Array(n*3);for(let i=0;i<n;i++){const v=new THREE.Vector3(Math.random()-.5,Math.random()-.5,Math.random()-.5).normalize().multiplyScalar(45+Math.random()*40);a.set([v.x,v.y,v.z],i*3)}const gg=new THREE.BufferGeometry();gg.setAttribute("position",new THREE.BufferAttribute(a,3));const mt=new THREE.PointsMaterial({size:s,color:c,map:stx,transparent:true,depthWrite:false});sc.add(new THREE.Points(gg,mt));sl.push(mt)});
+// rótulos
+const labs=D.map(d=>{const e=document.createElement("div");e.className="lb "+d[1];e.textContent=d[0];document.body.appendChild(e);return{e,d,v:ll2v(d[4],d[5],1.005)}});
+const mark=new THREE.Mesh(new THREE.SphereGeometry(.015,16,16),new THREE.MeshBasicMaterial({color:0xff3b2f}));mark.visible=false;globe.add(mark);
+const ring=new THREE.Mesh(new THREE.RingGeometry(.02,.03,32),new THREE.MeshBasicMaterial({color:0xff3b2f,side:2,transparent:true,opacity:.8}));ring.visible=false;globe.add(ring);
+// foco inicial no Brasil
+function focus(la,lo){const v=ll2v(la,lo);globe.rotation.set(0,0,0);globe.rotation.y=-Math.atan2(v.x,v.z);globe.rotation.x=la*Math.PI/180*.9}
+focus(-15,-50);
+// interação
+let down=null,moved=0,auto=true,dist=4,fly=null;
+cnv.addEventListener("pointerdown",e=>{down={x:e.clientX,y:e.clientY};moved=0;auto=false;fly=null;cnv.style.cursor="grabbing";cnv.setPointerCapture(e.pointerId)});
+cnv.addEventListener("pointermove",e=>{if(!down)return;const dx=e.clientX-down.x,dy=e.clientY-down.y;moved+=Math.abs(dx)+Math.abs(dy);const k=.005*dist/4;
+globe.rotation.y+=dx*k;globe.rotation.x=Math.max(-1.3,Math.min(1.3,globe.rotation.x+dy*k));down={x:e.clientX,y:e.clientY}});
+cnv.addEventListener("pointerup",e=>{cnv.style.cursor="grab";if(moved<6)pick(e.clientX,e.clientY);down=null});
+cnv.addEventListener("wheel",e=>{e.preventDefault();dist=Math.max(1.6,Math.min(6,dist*(1+e.deltaY*.001)))},{passive:false});
+const pts=new Map();
+cnv.addEventListener("pointerdown",e=>pts.set(e.pointerId,e));cnv.addEventListener("pointerup",e=>pts.delete(e.pointerId));
+let pd=0;cnv.addEventListener("pointermove",e=>{pts.set(e.pointerId,e);if(pts.size==2){const[a,b]=[...pts.values()];const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);if(pd)dist=Math.max(1.6,Math.min(6,dist*pd/d));pd=d;moved=99}else pd=0});
+const rc=new THREE.Raycaster(),pnt=new THREE.Vector2();
+const hav=(a,b,c,d)=>{const r=Math.PI/180,s=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2;return 12742*Math.asin(Math.sqrt(s))};
+function near(t,la,lo,max){let b=null,bd=1e9;D.forEach(d=>{if(d[1]!=t)return;const k=hav(la,lo,d[4],d[5]);if(k<bd){bd=k;b=d}});return bd<=max?{d:b,k:bd}:null}
+function pickOld(cx,cy){pnt.set(cx/innerWidth*2-1,-(cy/innerHeight)*2+1);rc.setFromCamera(pnt,cam);const h=rc.intersectObject(globe)[0];if(!h)return;
+const lv=globe.worldToLocal(h.point.clone()),[la,lo]=v2ll(lv);
+mark.position.copy(lv.clone().setLength(1.01));mark.visible=true;ring.position.copy(lv.clone().setLength(1.012));ring.lookAt(globe.localToWorld(lv.clone().multiplyScalar(2)));ring.visible=true;
+const land=isLand(la,lo),c=land?near("c",la,lo,700):near("c",la,lo,150),e=land?near("e",la,lo,1100):null,p=land?near("p",la,lo,2800):null;
+const P=document.getElementById("panel");let t,sub,blocks=[];
+const fmt=(la,lo)=>Math.abs(la).toFixed(2)+"°"+(la<0?"S":"N")+", "+Math.abs(lo).toFixed(2)+"°"+(lo<0?"O":"L");
+if(!land){t="🌊 Oceano / mar";sub=fmt(la,lo);blocks.push(["Crises no oceano",OCEANO])}
+else{const main=c||e||p;
+if(!main){t="Região continental";sub=fmt(la,lo);blocks.push(["Crises globais com efeito local",["Aquecimento global e eventos climáticos extremos","Perda de biodiversidade","Poluição e mudança no uso do solo"]])}
+else{const d=main.d;t=(c?"📍 "+d[0]:e?"📍 "+d[0]:"📍 "+d[0]);
+const pais=d[1]=="p"?d[0]:d[3],est=d[1]=="c"?d[2]:d[1]=="e"?d[0]:(e?e.d[0]:"");
+sub=[c?"Cidade: "+c.d[0]:"",est&&d[1]!="p"?"Estado/região: "+est:(e?"Estado/região: "+e.d[0]:""),"País: "+(pais||(p?p.d[0]:"—"))].filter(Boolean).join(" · ")+" · "+fmt(la,lo);
+if(c)blocks.push(["Cidade · "+c.d[0],c.d[6]]);
+if(e)blocks.push(["Estado/região · "+e.d[0],e.d[6]]);
+if(p)blocks.push(["País · "+p.d[0],p.d[6]])}}
+P.innerHTML="<h2>"+t+"</h2><div class=loc>"+sub+"</div>"+blocks.map(b=>"<h3>"+b[0]+"</h3><ul>"+b[1].map(i=>"<li>"+i+"</li>").join("")+"</ul>").join("")+"<div class=n>Os nomes mostrados são o local de referência mais próximo no banco de dados do globo; as crises são problemas ambientais amplamente documentados, não dados em tempo real.</div>"}
+labs.forEach(l=>{if(l.d[1]=="c"){l.e.style.color=l.d[6][0]=="r"?"#ff6b6b":"#5be38b";l.e.textContent="● "+l.d[0]}});
+{const cs=D.filter(d=>d[1]=="c"),pa=new Float32Array(cs.length*3),co=new Float32Array(cs.length*3);cs.forEach((d,i)=>{const v=ll2v(d[4],d[5],1.006);pa.set([v.x,v.y,v.z],i*3);co.set(d[6][0]=="r"?[1,.25,.25]:[.3,1,.5],i*3)});
+const g2=new THREE.BufferGeometry();g2.setAttribute("position",new THREE.BufferAttribute(pa,3));g2.setAttribute("color",new THREE.BufferAttribute(co,3));globe.add(new THREE.Points(g2,new THREE.PointsMaterial({size:.035,vertexColors:true})))}
+const sub=()=>{const n=new Date(),N=(Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate())-Date.UTC(n.getUTCFullYear(),0,0))/864e5,h=n.getUTCHours()+n.getUTCMinutes()/60+n.getUTCSeconds()/3600,g=2*Math.PI/365*(N-1+(h-12)/24),eq=229.18*(.000075+.001868*Math.cos(g)-.032077*Math.sin(g)-.014615*Math.cos(2*g)-.040849*Math.sin(2*g)),dec=(.006918-.399912*Math.cos(g)+.070257*Math.sin(g)-.006758*Math.cos(2*g)+.000907*Math.sin(2*g)-.002697*Math.cos(3*g)+.00148*Math.sin(3*g))*180/Math.PI;let lo=-((h-12)*15+eq/4);lo=((lo+540)%360)-180;return[dec,lo,n,h]};
+const sunTxt=(la,lo)=>{const[d,sl,n,h]=sub(),r=Math.PI/180,s=Math.sin(la*r)*Math.sin(d*r)+Math.cos(la*r)*Math.cos(d*r)*Math.cos((sl-lo)*r),lt=((h+lo/15)%24+24)%24,hh=String(Math.floor(lt)).padStart(2,"0")+":"+String(Math.floor(lt%1*60)).padStart(2,"0");return" · "+(s>0?"☀️ dia agora":"🌙 noite agora")+" · hora solar local "+hh};
+const TG={c:"🌡️ Calor e extremos",a:"💧 Seca e água",f:"🌳 Florestas e biodiversidade",p:"🏭 Poluição",m:"🌊 Mar e costas",g:"🧊 Degelo",e:"⛏️ Petróleo e mineração",i:"🌧️ Enchentes"};
+const info=d=>{const r=d[7]||0;return(r?"<div class=rk><span>Risco ambiental</span><i>"+"<u class=on></u>".repeat(r)+"<u></u>".repeat(5-r)+"</i><em>"+["","Baixo","Moderado","Alto","Muito alto","Crítico"][r]+"</em></div>":"")+(d[8]?"<div class=tg>"+d[8].split("").map(k=>"<b>"+TG[k]+"</b>").join("")+"</div>":"")+"<ul>"+d[6].map(i=>"<li>"+i+"</li>").join("")+"</ul>"};
+const dl2=document.getElementById("dl"),nm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+[...new Set(D.map(d=>d[0]))].forEach(n=>{const o=document.createElement("option");o.value=n;dl2.appendChild(o)});
+document.getElementById("q").addEventListener("change",e=>{const v=nm(e.target.value.trim());if(!v)return;const f=D.find(d=>nm(d[0])==v)||D.find(d=>nm(d[0]).startsWith(v))||D.find(d=>nm(d[0]).includes(v));if(!f)return;auto=false;const t=ll2v(f[4],f[5]);fly={ry:-Math.atan2(t.x,t.z),rx:Math.max(-1.3,Math.min(1.3,f[4]*Math.PI/180)),z:f[1]=="p"?3.2:f[1]=="e"?2.6:2};e.target.blur()});
+const N=[
+{k:"🔥",t:"Incêndios atingem várias cidades do Pará e a Defesa Civil reconhece emergência em 12 municípios",p:"Pará, Brasil",d:"04/11",s:"O Liberal",u:"https://www.oliberal.com/policia/equipes-dos-bombeiros-combatem-queimadas-em-quase-todas-as-regi-es-do-para-1.1190543",la:-3.2,lo:-52.2},
+{k:"⛈️",t:"Tempestades geram 671 ocorrências em 76 cidades de Santa Catarina em apenas dois dias",p:"Santa Catarina, Brasil",d:"05/11",s:"OPAS",u:"https://www.paho.org/en/natural-hazards-monitoring/natural-hazards-monitoring-5-november-2026",la:-27.3,lo:-50.5},
+{k:"🌧️",t:"Chuvas e enchentes no Equador deixam 12 mortos e mais de 56 mil pessoas afetadas",p:"Equador",d:"05/11",s:"OPAS",u:"https://www.paho.org/en/natural-hazards-monitoring/natural-hazards-monitoring-5-november-2026",la:-1.8,lo:-78.2},
+{k:"🌀",t:"Ciclone Murasu atinge Andhra Pradesh, o segundo a chegar à região em menos de uma semana",p:"Andhra Pradesh, Índia",d:"03/11",s:"Verisk",u:"https://alert.risksolutions.verisk.com",la:16,lo:80.5},
+{k:"🌧️",t:"Chuva forte causa enchente na Flórida, com duas mortes e centenas de resgates",p:"Condado de Brevard, Flórida, EUA",d:"03/11",s:"ABC News",u:"https://www.goodmorningamerica.com/news/story/2-dead-hundreds-rescued-amid-severe-flooding-florida-137819002",la:28.2,lo:-80.7},
+{k:"🌧️",t:"Enchente histórica na Geórgia: rios chegam a níveis recordes após chuva intensa",p:"Geórgia e Tennessee, EUA",d:"06/11",s:"FOX Weather",u:"https://www.foxweather.com/extreme-weather/video-photo-flood-cross-country-storm-southwest-florida-southeast-northeast",la:34.98,lo:-84.37},
+{k:"🌊",t:"Enxurradas em Erbil matam ao menos duas pessoas e interditam uma rodovia",p:"Erbil, Iraque",d:"08/11",s:"IraqiNews",u:"https://www.iraqinews.com/?p=241125",la:36.19,lo:44.01},
+{k:"🌧️",t:"Chuva forte inunda tendas de deslocados em Gaza, com escassez de ajuda humanitária",p:"Gaza",d:"08/11",s:"Reuters (TimesLIVE)",u:"https://www.timeslive.co.za/news/world/2026-11-08-heavy-rain-floods-gaza-tents-as-aid-shortages-persist/",la:31.5,lo:34.46},
+{k:"🔥",t:"Incêndio florestal na Virgínia obriga moradores de mais de 20 ruas a deixar as casas",p:"Condado de Frederick, Virgínia, EUA",d:"09/11",s:"WJLA",u:"https://wjla.com/news/local/frederick-county-virginia-wildfire-shawneeland-cove-campground-winchester-evacuations-containment-smoke-firefighters-va",la:39.1,lo:-78.4},
+{k:"🌳",t:"Mato Grosso proíbe o uso do fogo no campo até 30 de novembro para prevenir incêndios",p:"Mato Grosso, Brasil",d:"em vigor até 30/11",s:"Poconet",u:"https://www.poconet.com.br/noticia/ler/estado-de-mt-entra-em-periodo-critico-e-proibe-queimadas-ate-novembro/45841",la:-13,lo:-56}
+].sort((a,b)=>0);
+const NM=[["Brasil","Pará"],["Brasil","Santa Catarina"],["Equador"],["Índia"],["EUA","Flórida"],["EUA"],["Iraque"],["Palestina"],["EUA"],["Brasil","Mato Grosso"]];N.forEach((n,i)=>{n.c=NM[i][0];n.e=NM[i][1]});
+{const el=document.getElementById("news"),ls=document.getElementById("nl");
+const rn=L=>L.map(n=>`<div class="ni" data-i="${N.indexOf(n)}"><span class="nk">${n.k}</span><div><b>${n.t}</b><small>${n.p} · ${n.d} · <a href="${n.u}" target="_blank" rel="noopener">${n.s} ↗</a></small></div></div>`).join("");
+const base="Retrato de 10/11/2026, selecionado por pesquisa na web. Não atualiza sozinho. Toque em um país ou estado do globo para ver as notícias dele.";
+window.showNews=(c,e)=>{const t=el.querySelector("b"),s=el.querySelector("small");
+if(!c){t.textContent="📰 Notícias ambientais";s.textContent=base;ls.innerHTML=rn(N);ls.scrollTop=0;return}
+const a=e?N.filter(n=>n.e==e):[],b=N.filter(n=>n.c==c&&!(e&&n.e==e)),nm=e||c,q=encodeURIComponent((e?e+" ":"")+c+" meio ambiente");
+t.textContent="📰 "+nm;s.textContent=(e?c+" · ":"")+"Notícias do retrato de 10/11/2026 para este local.";
+ls.innerHTML=(a.length?"<h4>No estado</h4>"+rn(a):"")+(b.length?"<h4>"+(e?"No país · "+c:"No país")+"</h4>"+rn(b):"")+(a.length||b.length?"":"<p class=\"ne\">Nenhuma notícia deste local no retrato de 10/11/2026.</p>")+`<a class="gn" href="https://news.google.com/search?q=${q}&hl=pt-BR&gl=BR&ceid=BR%3Apt-419" target="_blank" rel="noopener">🔎 Ver notícias de hoje sobre ${nm} ↗</a><button class="nall">← Todas as notícias</button>`;ls.scrollTop=0};
+showNews();
+ls.addEventListener("click",e=>{if(e.target.closest("a"))return;if(e.target.closest(".nall")){showNews();return}const it=e.target.closest(".ni");if(!it)return;const n=N[+it.dataset.i],t=ll2v(n.la,n.lo);auto=false;fly={ry:-Math.atan2(t.x,t.z),rx:Math.max(-1.3,Math.min(1.3,n.la*Math.PI/180)),z:2.6};el.classList.remove("open")});
+document.getElementById("nbtn").onclick=()=>el.classList.toggle("open");
+const pa3=new Float32Array(N.length*3);N.forEach((n,i)=>{const v=ll2v(n.la,n.lo,1.02);pa3.set([v.x,v.y,v.z],i*3)});
+const g3=new THREE.BufferGeometry();g3.setAttribute("position",new THREE.BufferAttribute(pa3,3));
+window._np=new THREE.PointsMaterial({size:.06,color:0xffd84a,map:stx,transparent:true,depthWrite:false});globe.add(new THREE.Points(g3,window._np))}
+function pick(cx,cy){pnt.set(cx/innerWidth*2-1,-(cy/innerHeight)*2+1);rc.setFromCamera(pnt,cam);const h=rc.intersectObject(globe)[0];if(!h)return;
+const lv=globe.worldToLocal(h.point.clone()),[la,lo]=v2ll(lv);
+mark.position.copy(lv.clone().setLength(1.01));mark.visible=true;ring.position.copy(lv.clone().setLength(1.012));ring.lookAt(globe.localToWorld(lv.clone().multiplyScalar(2)));ring.visible=true;
+const land=isLand(la,lo),s=land?(()=>{const nc=near("c",la,lo,350),se=nc&&D.find(x=>x[1]=="e"&&x[0]==nc.d[2]&&x[3]==nc.d[3]);return se?{d:se}:near("e",la,lo,1000)})():null,P=document.getElementById("panel"),fm=Math.abs(la).toFixed(4)+"°"+(la<0?"S":"N")+", "+Math.abs(lo).toFixed(4)+"°"+(lo<0?"O":"L")+(()=>{const n=near("c",la,lo,5000);return n?" · a "+Math.round(n.k)+" km de "+n.d[0]:""})()+sunTxt(la,lo);
+const ul=a=>"<ul>"+a.map(i=>"<li>"+i+"</li>").join("")+"</ul>";
+const nt="<div class=n>Situações ambientais amplamente documentadas, resumidas por cidade — não são notícias em tempo real. O estado é identificado pelo ponto de referência mais próximo.</div>";
+if(!land){showNews();P.innerHTML="<h2>🌊 Oceano / mar</h2><div class=loc>"+fm+"</div><h3>Crises no oceano</h3>"+ul(OCEANO);return}
+if(s){showNews(s.d[3],s.d[0]);const d=s.d,cs=d[6],r=cs.filter(c=>c[3]=="r").length,pc=D.find(x=>x[1]=="p"&&x[0]==d[3]);
+P.innerHTML="<h2>📍 "+d[0]+"</h2><div class=loc>"+d[3]+" · "+fm+" · <span style=color:#ff6b6b>"+r+" com problemas</span> · <span style=color:#5be38b>"+(cs.length-r)+" em boa situação</span></div><h3>Cidades do estado</h3><ul style=\"list-style:none;padding:0\">"+cs.map(c=>"<li class="+(c[3]=="r"?"bad":"good")+"><b>"+c[0]+"</b><span>"+c[4]+"</span></li>").join("")+"</ul>"+(pc?"<h3>País · "+pc[0]+"</h3>"+info(pc):"")+nt;return}
+const p=near("p",la,lo,2800);showNews(p?p.d[0]:null);
+P.innerHTML="<h2>"+(p?"📍 "+p.d[0]:"Região continental")+"</h2><div class=loc>"+fm+" · país mais próximo do ponto (estados ainda não cadastrados)</div><h3>Crises ambientais"+(p?" do país":" globais")+"</h3>"+(p?info(p.d):ul(["Aquecimento global e eventos extremos","Perda de biodiversidade"]))+nt}
+// loop
+function size(){const w=innerWidth,h=innerHeight;rd.setSize(w,h);cam.aspect=w/h;window._off=w>900?170:0;if(w>900)cam.setViewOffset(w,h,170,0,w,h);else cam.clearViewOffset();cam.updateProjectionMatrix()}
+addEventListener("resize",size);size();
+const tmp=new THREE.Vector3(),cd=new THREE.Vector3();
+(function loop(){requestAnimationFrame(loop);if(auto)globe.rotation.y+=.0015;cam.position.z+=(dist-cam.position.z)*.12;
+globe.updateMatrixWorld();const w=innerWidth,h=innerHeight,cz=cam.position.z;
+labs.forEach(({e,d,v})=>{const t=d[1];const show=t=="p"||(t=="e"&&cz<2.9)||(t=="c"&&cz<2.3);if(!show){e.style.display="none";return}
+tmp.copy(v).applyMatrix4(globe.matrixWorld);cd.copy(cam.position).sub(tmp);if(tmp.dot(cd)<.05){e.style.display="none";return}
+tmp.project(cam);e.style.display="block";e.style.left=(tmp.x*.5+.5)*w+"px";e.style.top=(-tmp.y*.5+.5)*h+"px"});
+{const pl=["panel","news","lg","barrinha"].map(i=>document.getElementById(i).getBoundingClientRect()).filter(r=>r.width>0&&r.height>0).map(r=>[r.left-6,r.top-6,r.right+6,r.bottom+6]),pr=cz<2.6?{e:0,c:1,p:2}:{p:0,e:1,c:2};
+labs.filter(l=>l.e.style.display=="block").sort((a,b)=>pr[a.d[1]]-pr[b.d[1]]).forEach(l=>{const x0=parseFloat(l.e.style.left),y0=parseFloat(l.e.style.top);l.w=l.w||l.e.offsetWidth;l.h=l.h||l.e.offsetHeight;
+const r=[x0-l.w/2-8,y0-l.h/2-6,x0+l.w/2+8,y0+l.h/2+6];
+if(pl.some(o=>r[0]<o[2]&&r[2]>o[0]&&r[1]<o[3]&&r[3]>o[1]))l.e.style.display="none";else pl.push(r)})}
+if(fly){const T=Math.PI*2,dy=((fly.ry-globe.rotation.y+Math.PI)%T+T)%T-Math.PI,dx=fly.rx-globe.rotation.x;globe.rotation.y+=dy*.09;globe.rotation.x+=dx*.09;dist+=(fly.z-dist)*.06;if(Math.abs(dy)<.004&&Math.abs(dx)<.004&&Math.abs(dist-fly.z)<.03){fly=null;pick(innerWidth/2-(window._off||0),innerHeight/2)}}
+{const[d,sl,n]=sub();dl.position.copy(ll2v(d,sl,6)).applyQuaternion(globe.quaternion);if(!window._t||Date.now()-window._t>1000){window._t=Date.now();document.getElementById("clk").textContent="🕒 UTC "+n.toISOString().slice(11,19)+" · ☀️ Sol a pino em "+Math.abs(d).toFixed(1)+"°"+(d<0?"S":"N")+", "+Math.abs(sl).toFixed(1)+"°"+(sl<0?"O":"L")}}
+cl.rotation.set(globe.rotation.x,globe.rotation.y+Date.now()/6e5,0);
+if(window._np)window._np.size=.06+.02*Math.sin(Date.now()/300);
+sl.forEach((m,i)=>m.opacity=.65+.35*Math.sin(Date.now()/(700+i*450)+i));
+ring.scale.setScalar(1+.3*Math.sin(Date.now()/230));rd.render(sc,cam)})();
+</script></body></html>
